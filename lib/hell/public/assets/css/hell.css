@@ -1,0 +1,158 @@
+/* =============== Bootstrap Overrides */
+h1 {
+  font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue", 'Arial Narrow', Arial, sans-serif;
+  text-align: center;
+}
+h4 {
+  border: 0;
+  border-bottom: 1px solid rgb(229, 229, 229);
+  color: rgb(51, 51, 51);
+  display: block;
+  font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue", 'Arial Narrow', Arial, sans-serif;
+  font-size: 21px;
+  font-weight: normal;
+  line-height: 40px;
+  margin: 0 0 10px 0;
+  padding: 0;
+  width: 100%;
+}
+legend {
+  font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue", 'Arial Narrow', Arial, sans-serif;
+}
+button,
+.btn,
+input[type=submit] {
+  font-family: "HelveticaNeue-CondensedBold", "Helvetica Neue", 'Arial Narrow', Arial, sans-serif;
+  text-shadow: 1px 1px 1px #333;
+}
+.btn-inverse {
+  text-shadow: 1px 1px 1px #888;
+}
+.btn-radio {
+  text-shadow: none;
+}
+.dropdown-menu .active > a,
+.dropdown-menu .active > a:hover {
+  color: #fff;
+}
+.tab-pane {
+  padding: 4px;
+}
+.table th,
+.table td {
+  border: none;
+}
+.nav-tabs {
+  border-bottom: 1px solid #E8E8E8;
+}
+.nav-tabs > .active > a, .nav-tabs > .active > a:hover {
+  border: 1px solid #E8E8E8;
+  border-bottom-color: transparent;
+}
+.nav-tabs > .active > a, .nav-tabs > .active > a:hover {
+  color: #333;
+}
+.nav-tabs > li > a {
+  color: #999;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: bold;
+  -webkit-font-smoothing:antialiased;
+  -moz-font-smoothing:antialiased;
+}
+form label {
+  color: #727272;
+  font-size: 12px;
+  -webkit-font-smoothing: antialiased;
+}
+/* =============== Task View */
+.tasks-table-container {
+  max-height: 500px;
+  overflow-y: scroll;
+}
+.task-view {
+  cursor: pointer;
+  color: #1086CD;
+  line-height: 8px;
+  padding-top: 8px;
+}
+.task-view:hover {
+  cursor: pointer;
+  color: #1086CD;
+  text-decoration: underline;
+}
+th.task-rerun,
+td.task-rerun {
+  text-align: center;
+  vertical-align: middle;
+}
+.timeago {
+  line-height: 8px;
+  padding-left: 46px;
+  padding-bottom: 8px;
+}
+.timeago small {
+  font-size: 60%;
+}
+
+/* =============== Task output */
+.task-container hr {
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+.task-output {
+  height: 300px;
+  overflow: scroll;
+  display: block;
+  font-family: Monaco,Menlo,Consolas,"Courier New",monospace;
+  color: rgb(51, 51, 51);
+  padding: 9.5px;
+  margin: 0 0 10px;
+  font-size: 13px;
+  line-height: 20px;
+  word-break: break-all;
+  word-wrap: break-word;
+  background-color: whiteSmoke;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+}
+
+/* =============== Progress Bar Overlay */
+.black-overlay {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  z-index: 100;
+  -webkit-opacity: 0.8;
+  -moz-opacity: 0.8;
+  opacity:.80;
+  filter: alpha(opacity=80);
+}
+.progress-container {
+  position: relative;
+}
+.progress {
+  display:none;
+  position: absolute;
+  top: 120px;
+  width: 100%;
+  z-index: 10000;
+}
+.progress .bar {
+  border-radius: 4px;
+  width: 100%;
+}
+
+/* =============== Growl Notifications */
+.bootstrap-growl {
+  padding: 8px 14px 8px 14px;
+  text-align: center;
+}
