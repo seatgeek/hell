@@ -11,7 +11,7 @@ require 'websocket'
 
 HELL_DIR = Dir.pwd
 APP_ROOT = ENV.fetch('HELL_APP_ROOT', HELL_DIR)
-ENVIRONMENTS = ENV.fetch('HELL_APP_ROOT', 'production,staging').split(',')
+ENVIRONMENTS = ENV.fetch('HELL_ENVIRONMENTS', 'production,staging').split(',')
 BLACKLIST = ['invoke', 'shell', 'internal:ensure_env', 'internal:setup_env']
 REQUIRE_ENV = ENV.fetch('HELL_REQUIRE_ENV', '1') == '1'
 HELL_LOG_PATH = ENV.fetch('HELL_LOG_PATH', File.join(HELL_DIR, 'log'))
