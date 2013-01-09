@@ -10,20 +10,20 @@ a:hover { text-decoration:none; cursor:pointer; }
 ul { list-style:none; }
 /*Reset csss end here*/
 body{background-color: white; }
-.wrapper{width:941px;margin: 0px auto; position: relative; overflow: hidden;}
-.header{width:100%; float: left; background: url("../images/header-bg.gif") repeat-x 0 0; position: relative; height: 443px;}
+.wrapper{width:941px;margin: 0px auto; position: relative; }
+.header{width:100%; float: left; background: url("../images/header-bg.png") repeat-x 0 0; position: relative; height: 443px;}
 .wrapper.head{height: 442px;}
-a.logo{width:431px;height: 283px;float: left; margin:6px 0 0 0;padding: 0px 0 5px;background: url(../images/logo.png) no-repeat 0 0; padding:0px 0 5px\9;*padding:0px 0 2px;}
-.flame1{left: 40px;position: absolute;top: 6px;}
-.flame2{position: absolute;right: 69px;top: 6px;}
-.flame3{position: absolute; bottom:5px;left: 68px;}
-.flame4{ bottom:5px;position: absolute;right: 172px;}
-.flame5{position: absolute; bottom:5px;left: 255px;}
-.flame6{position: absolute; bottom:5px;left: 513px;}
+a.logo{width:1059px;height: 333px;float: left; padding: 0px 0 5px;background: url(../images/logo.png) no-repeat 0 0; padding:0px 0 5px\9;*padding:0px 0 2px; position: relative; left: -132px;}
+.flame1{left: 40px;position: absolute;top: 6px; z-index: 99; }
+.flame2{position: absolute;right: 69px;top: 6px; z-index: 99;}
+.flame3{position: absolute; bottom:5px;left: 68px; z-index: 99;}
+.flame4{ bottom:5px;position: absolute;right: 172px; z-index: 99;}
+.flame5{position: absolute; bottom:5px;left: 255px; z-index: 99;}
+.flame6{position: absolute; bottom:5px;left: 513px; z-index: 99;}
 h2{width:100%; float: left; text-align: center; color: #f3dcdc; font: 21px/28px 'Helvetica Neue',arial;}
-a.view-github{background: url("../images/view-btn-bg.jpg") repeat-x scroll 0 0 transparent;border-bottom: 2px solid #660505;color: #FBF8F8;float: left;font: bold 15px/60px 'Helvetica Neue',arial;margin:194px 0 0 325px;text-align: center;text-transform: uppercase;width: 185px;}
-.made-by{width:100%; float: right; padding:75px 0 24px;margin:0px;}
-.made-by img{width:auto; float: right;margin: 24px 3px 0 0;}
+a.view-github{background: url("../images/view-btn-bg.jpg") repeat-x scroll 0 0 transparent;border-bottom: 2px solid #660505;color: #FBF8F8;font: bold 15px/60px 'Helvetica Neue',arial;text-align: center;text-transform: uppercase;width: 184px; height: 60px;position: absolute;top: 190px; right: -2px;}
+.made-by{width:100%; padding:75px 0 24px;margin:0px;}
+.made-by img{width:auto; margin: 24px 3px 0 0; position: absolute;right: -6px; bottom: 29px;}
 .body-container{width:100%; float: left; background: #241b1b url(../images/light.gif) no-repeat center 0;   padding: 73px 0 0;margin: 0px;}
 .body-text{width:100%; float: left; padding: 0px; margin: 0px;}
 .body-text li{width:100%; float: left;  padding: 81px 0 54px; margin: 0px; background: url("../images/img-2.png") no-repeat top center}
