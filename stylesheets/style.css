@@ -1,35 +1,235 @@
 /*Reset csss start here*/
-body, div, ul, li, ol, h1, h2, h3, h4, h5, h5, form, fieldset, p, select, address, input { margin:0; padding:0; outline:0; }
-img, fieldset { border:none; padding:0; margin:0; outline:none; }
-input { border:none; }
-select { border:none; }
-.clear { clear:both; }
-a:focus { outline:none; }
-a { text-decoration:none; outline:none; }
-a:hover { text-decoration:none; cursor:pointer; }
-ul { list-style:none; }
+body, div, ul, li, ol, h1, h2, h3, h4, h5, h5, form, fieldset, p, select, address, input {
+  margin: 0;
+  padding: 0;
+  outline: 0;
+font-family: HelveticaNeue, 'Helvetica Neue', HelveticaNeueRoman, HelveticaNeue-Roman, 'Helvetica Neue Roman', Helvetica, Tahoma, Geneva, Arial, sans-serif;
+-webkit-font-smoothing: antialiased;
+}
+img, fieldset {
+  border: none;
+  padding: 0;
+  margin: 0;
+  outline: none;
+}
+input {
+  border: none
+}
+select {
+  border: none
+}
+.clear {
+  clear: both
+}
+a:focus {
+  outline: none
+}
+a {
+  text-decoration: none;
+  outline: none;
+}
+a:hover {
+  text-decoration: none;
+  cursor: pointer;
+}
+ul {
+  list-style: none
+}
 /*Reset csss end here*/
-body{background-color: white; }
-.wrapper{width:941px;margin: 0px auto; position: relative; }
-.header{width:100%; float: left; background: url("../images/header-bg.png") repeat-x 0 0; position: relative; height: 443px;}
-.wrapper.head{height: 442px;}
-a.logo{width:1059px;height: 333px;float: left; padding: 0px 0 5px;background: url(../images/logo.png) no-repeat 0 0; padding:0px 0 5px\9;*padding:0px 0 2px; position: relative; left: -132px;}
-.flame1{left: 40px;position: absolute;top: 6px; z-index: 99; }
-.flame2{position: absolute;right: 69px;top: 6px; z-index: 99;}
-.flame3{position: absolute; bottom:5px;left: 68px; z-index: 99;}
-.flame4{ bottom:5px;position: absolute;right: 172px; z-index: 99;}
-.flame5{position: absolute; bottom:5px;left: 255px; z-index: 99;}
-.flame6{position: absolute; bottom:5px;left: 513px; z-index: 99;}
-h2{width:100%; float: left; text-align: center; color: #f3dcdc; font: 21px/28px 'Helvetica Neue',arial;}
-a.view-github{background: url("../images/view-btn-bg.jpg") repeat-x scroll 0 0 transparent;border-bottom: 2px solid #660505;color: #FBF8F8;font: bold 15px/60px 'Helvetica Neue',arial;text-align: center;text-transform: uppercase;width: 184px; height: 60px;position: absolute;top: 190px; right: -2px;}
-.made-by{width:100%; padding:75px 0 24px;margin:0px;}
-.made-by img{width:auto; margin: 24px 3px 0 0; position: absolute;right: -6px; bottom: 29px;}
-.body-container{width:100%; float: left; background: #241b1b url(../images/light.gif) no-repeat center 0;   padding: 73px 0 0;margin: 0px;}
-.body-text{width:100%; float: left; padding: 0px; margin: 0px;}
-.body-text li{width:100%; float: left;  padding: 81px 0 54px; margin: 0px; background: url("../images/img-2.png") no-repeat top center}
-.body-text li span{width:246px; float: left; padding: 0px; margin: 0px;color: #f8e2e2; font: 21px/31px 'Helvetica Neue',arial}
-.right-div{width:652px; float: left;}
-.right-div p{ color: #f3d1d1; float: left;font: 16px/29px 'Helvetica Neue',arial;margin: 0;padding: 0 23px 0 0;width: 663px;opacity: 0.75; }
-.right-div img{float: left; margin: 26px 0 0 2px;padding: 0 0px 0 0;width:auto;}
-.body-text li.first{ margin: 0px; padding-top: 0px;background: none}
-.heading{position: absolute;top: 219px; left:96px;}
+body {
+  background-color: white
+}
+.wrapper {
+  width: 941px;
+  margin: 0px auto;
+  position: relative;
+}
+.header {
+  width: 100%;
+  float: left;
+  background: url("../images/header-bg.png") repeat-x 0 0;
+  position: relative;
+  height: 443px;
+}
+.wrapper.head {
+  height: 442px
+}
+a.logo {
+  width: 1059px;
+  height: 333px;
+  float: left;
+  padding: 0px 0 5px;
+  background: url(../images/logo.png) no-repeat 0 0;
+  padding: 0px 0 5px\9;
+  *padding: 0px 0 2px;
+  position: relative;
+  left: -229px;
+}
+.flame1 {
+  left: 40px;
+  position: absolute;
+  top: 6px;
+  z-index: 99;
+}
+.flame2 {
+  position: absolute;
+  right: 69px;
+  top: 6px;
+  z-index: 99;
+}
+.flame3 {
+  position: absolute;
+  bottom: 5px;
+  left: 0;
+  z-index: 99;
+}
+.flame4 {
+  bottom: 5px;
+  position: absolute;
+  right: 172px;
+  z-index: 99;
+}
+.flame5 {
+  position: absolute;
+  bottom: 5px;
+  left: 255px;
+  z-index: 99;
+}
+.flame6 {
+  position: absolute;
+  bottom: 5px;
+  left: 513px;
+  z-index: 99;
+}
+h2 {
+  width: 100%;
+  float: left;
+  text-align: center;
+  color: #f3dcdc;
+  font-size: 19px;
+  line-height: 28px;
+  font-weight: normal;
+}
+a.view-github {
+  color: #FBF8F8;
+  font-size:15px;
+  line-height: 60px;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+  position: absolute;
+  top: 190px;
+  right: -2px;
+	width: 184px;
+	height: 60px;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	background-color: #e07809;
+	-webkit-box-shadow: 0 1px 2px rgba(4,5,5,.15), inset 0 1px rgba(255,255,255,.15), inset 0 0 1px rgba(255,255,255,.1);
+	-moz-box-shadow: 0 1px 2px rgba(4,5,5,.15), inset 0 1px rgba(255,255,255,.15), inset 0 0 1px rgba(255,255,255,.1);
+	box-shadow: 0 1px 2px rgba(4,5,5,.15), inset 0 1px rgba(255,255,255,.15), inset 0 0 1px rgba(255,255,255,.1);
+	background-image: -webkit-linear-gradient(bottom, #c06300, #e07809);
+	background-image: -moz-linear-gradient(bottom, #c06300, #e07809);
+	background-image: -o-linear-gradient(bottom, #c06300, #e07809);
+	background-image: -ms-linear-gradient(bottom, #c06300, #e07809);
+	background-image: linear-gradient(to top, #c06300, #e07809);
+-webkit-transition: box-shadow 1s ease-out;
+-moz-transition: box-shadow 1s ease-out;
+-o-transition: box-shadow 1s ease-out;
+-ms-transition: box-shadow 1s ease-out;
+transition: box-shadow 1s ease-out;
+}
+a.view-github:hover {
+background-color: #ee8413;
+background-image: -webkit-gradient(linear, left top, left bottom, from(rgb(238, 132, 19)), to(rgb(207, 109, 4)));
+background-image: -webkit-linear-gradient(top, rgb(238, 132, 19), rgb(207, 109, 4));
+background-image: -moz-linear-gradient(top, rgb(238, 132, 19), rgb(207, 109, 4));
+background-image: -o-linear-gradient(top, rgb(238, 132, 19), rgb(207, 109, 4));
+background-image: -ms-linear-gradient(top, rgb(238, 132, 19), rgb(207, 109, 4));
+background-image: linear-gradient(top, rgb(238, 132, 19), rgb(207, 109, 4));
+filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#ee8413', EndColorStr='#cf6d04');
+box-shadow: 0 1px 2px rgba(4, 5, 5, 0.15), 0 1px rgba(255, 255, 255, 0.15) inset, 0 0 1px rgba(255, 255, 255, 0.1) inset, 0 0 20px rgba(255,255,255,.33);
+}
+a.view-github:active {
+	background-color: #e07809;
+	-webkit-box-shadow: 0 1px 2px rgba(4,5,5,.15), inset 0 3px 3px rgba(103,53,0,.35), inset 0 0 1px rgba(255,255,255,.1);
+	-moz-box-shadow: 0 1px 2px rgba(4,5,5,.15), inset 0 3px 3px rgba(103,53,0,.35), inset 0 0 1px rgba(255,255,255,.1);
+	box-shadow: 0 1px 2px rgba(4,5,5,.15), inset 0 3px 3px rgba(103,53,0,.35), inset 0 0 1px rgba(255,255,255,.1);
+	background-image: -webkit-linear-gradient(bottom, rgba(192,99,0,.6), rgba(224,120,9,.6));
+	background-image: -moz-linear-gradient(bottom, rgba(192,99,0,.6), rgba(224,120,9,.6));
+	background-image: -o-linear-gradient(bottom, rgba(192,99,0,.6), rgba(224,120,9,.6));
+	background-image: -ms-linear-gradient(bottom, rgba(192,99,0,.6), rgba(224,120,9,.6));
+	background-image: linear-gradient(to top, rgba(192,99,0,.6), rgba(224,120,9,.6));
+}
+.made-by {
+  width: 100%;
+  padding: 75px 0 24px;
+  margin: 0px;
+}
+.made-by img {
+  width: auto;
+  margin: 24px 3px 0 0;
+  position: absolute;
+  right: -6px;
+  bottom: 29px;
+}
+.body-container {
+  width: 100%;
+  float: left;
+  background: #241b1b url(../images/light.gif) no-repeat center 0;
+  padding: 73px 0 0;
+  margin: 0px;
+}
+.body-text {
+  width: 100%;
+  float: left;
+  padding: 0px;
+  margin: 0px;
+}
+.body-text li {
+  width: 100%;
+  float: left;
+  padding: 81px 0 54px;
+  margin: 0px;
+  background: url("../images/img-2.png") no-repeat top center;
+}
+.body-text li span {
+  width: 246px;
+  float: left;
+  padding: 0px;
+  margin: 0px;
+  color: #f8e2e2;
+  font-size: 21px;
+  line-height: 31px;
+}
+.right-div {
+  width: 652px;
+  float: left;
+}
+.right-div p {
+  color: #f3d1d1;
+  float: left;
+  font-size: 16px;
+  line-height: 29px;
+  margin: 0;
+  padding: 0 23px 0 0;
+  width: 663px;
+  opacity: 0.75;
+}
+.right-div img {
+  float: left;
+  margin: 26px 0 0 2px;
+  padding: 0 0px 0 0;
+  width: auto;
+}
+.body-text li.first {
+  margin: 0px;
+  padding-top: 0px;
+  background: none;
+}
+.heading {
+  position: absolute;
+  top: 219px;
+  left: 0;
+}
