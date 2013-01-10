@@ -65,6 +65,12 @@ a.logo {
   position: relative;
   left: -229px;
 }
+img.flames {
+  position: absolute;
+  bottom: 5px;
+  left: -34px;
+  z-index: 99;
+}
 .flame1 {
   left: 40px;
   position: absolute;
@@ -102,13 +108,16 @@ a.logo {
   z-index: 99;
 }
 h2 {
-  width: 100%;
-  float: left;
-  text-align: center;
-  color: #f3dcdc;
-  font-size: 19px;
-  line-height: 28px;
-  font-weight: normal;
+text-align: left;
+color: #F3DCDC;
+font-size: 18px;
+line-height: 28px;
+z-index: 200;
+font-weight: normal;
+position: absolute;
+width: 530px;
+left: 0;
+top: 5px;
 }
 a.view-github {
   color: #FBF8F8;
@@ -171,8 +180,8 @@ a.view-github:active {
   width: auto;
   margin: 24px 3px 0 0;
   position: absolute;
-  right: -6px;
-  bottom: 29px;
+  right: -14px;
+  bottom: 20px;
 }
 .body-container {
   width: 100%;
