@@ -49,8 +49,6 @@ module Hell
 
     register Sinatra::AssetPack
 
-    cap = Capistrano::CLI.parse(["-T"])
-
     set :public_folder, File.join(File.expand_path('..', __FILE__), 'public')
     set :root, HELL_DIR
     set :server, :thin
@@ -88,6 +86,13 @@ module Hell
 
     configure :production, :development do
       enable :logging
+    end
+
+    def cap
+      FileUtils.chdir HELL_APP_ROOT do
+        @cap ||= Capistrano::CLI.parse(["-T"])
+      end
+      return @cap
     end
 
     get '/' do

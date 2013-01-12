@@ -1,5 +1,5 @@
 require 'json'
-require 'capistrano'
+require 'hell/lib/capistrano/configuration'
 require 'capistrano/cli'
 require 'capistrano/cli/help'
 require 'capistrano/task_definition'
