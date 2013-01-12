@@ -12,16 +12,16 @@ require 'trollop'
 require 'websocket'
 
 opts = Trollop::options do
-  opt :port,         "set the host (default is 4567)",                                          :default => 4567,        :type => :integer
-  opt :addr,         "set the host (default is 0.0.0.0)",                                       :default => '0.0.0.0'
-  opt :server,       "specify rack server/handler (default is thin)",                           :default => 'thin'
-  opt :x,            "turn on the mutex lock (default is false)",                               :default => false
-  opt :environments, "comma-separated list of environments (default is production,staging)",    :default => 'production,staging'
-  opt :app_root,     "directory from which capistrano should run (default is #{Dir.pwd})",      :default => Dir.pwd
-  opt :require_env,  "whether or not to require specifying an environment. (default is true)",  :default => true
-  opt :log_path,     "path to hell logs (default is " + File.join(Dir.pwd, 'log') + ")",        :default => File.join(Dir.pwd, 'log')
-  opt :base_dir,     "base directory to use in the web ui (default is /)",                      :default => '/'
-  opt :sentinel,     "sentinel string used to denote the end of a task run (default is /)",     :default => 'Hellish Task Completed'
+  opt :port,         "set the host",                                             :default => 4567,        :type => :integer
+  opt :addr,         "set the host",                                             :default => '0.0.0.0'
+  opt :server,       "specify rack server/handler",                              :default => 'thin'
+  opt :x,            "turn on the mutex lock (default is false)",                :default => false
+  opt :environments, "comma-separated list of environments",                     :default => 'production,staging'
+  opt :app_root,     "directory from which capistrano should run",               :default => Dir.pwd
+  opt :require_env,  "whether or not to require specifying an environment",      :default => true
+  opt :log_path,     "path to hell logs",                                        :default => File.join(Dir.pwd, 'log')
+  opt :base_dir,     "base directory to use in the web ui",                      :default => '/'
+  opt :sentinel,     "sentinel string used to denote the end of a task run",     :default => 'Hellish Task Completed'
 end
 
 HELL_DIR              = Dir.pwd
