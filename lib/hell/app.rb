@@ -8,8 +8,15 @@ require 'sinatra/assetpack'
 
 require 'json'
 require 'securerandom'
+require 'trollop'
 require 'websocket'
 
+opts = Trollop::options do
+  opt :port,         "set the host (default is 4567)",                                          :default => 4567,        :type => :integer
+  opt :addr,         "set the host (default is 0.0.0.0)",                                       :default => '0.0.0.0'
+  opt :server,       "specify rack server/handler (default is thin)",                           :default => 'thin'
+  opt :x,            "turn on the mutex lock (default is false)",                               :default => false
+end
 HELL_DIR = Dir.pwd
 APP_ROOT = ENV.fetch('HELL_APP_ROOT', HELL_DIR)
 ENVIRONMENTS = ENV.fetch('HELL_ENVIRONMENTS', 'production,staging').split(',')
@@ -18,6 +25,15 @@ REQUIRE_ENV = ENV.fetch('HELL_REQUIRE_ENV', '1') == '1'
 HELL_LOG_PATH = ENV.fetch('HELL_LOG_PATH', File.join(HELL_DIR, 'log'))
 HELL_BASE_DIR = ENV.fetch('HELL_BASE_DIR', '/')
 SENTINEL_STRINGS = ENV.fetch('HELL_SENTINEL_STRINGS', 'Hellish Task Completed').split(',')
+HELL_PORT = opts.port
+HELL_ADDR = opts.addr
+HELL_ENV = opts.env.to_s
+HELL_SERVER = opts.server
+HELL_LOCK = opts.x
+HELL_PORT             = opts.port
+HELL_ADDR             = opts.addr
+HELL_SERVER           = opts.server
+HELL_LOCK             = opts.x
 
 require 'hell/lib/monkey_patch'
 require 'hell/lib/helpers'
@@ -37,6 +53,11 @@ module Hell
     set :server, :thin
     set :static, true
     set :views, File.join(File.expand_path('..', __FILE__), 'views')
+
+    set :port, HELL_PORT
+    set :bind, HELL_ADDR
+    set :server, HELL_SERVER
+    set :lock, HELL_LOCK
 
     assets do
       css_compression :sass
