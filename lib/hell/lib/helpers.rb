@@ -51,7 +51,7 @@ module Hell
     def process_line(line, out, io)
       begin
         out << "data: " + ws_message(line) unless out.closed?
-        raise TailDone if SENTINEL_STRINGS.any? { |w| line =~ /#{w}/ }
+        raise TailDone if HELL_SENTINEL_STRINGS.any? { |w| line =~ /#{w}/ }
       rescue
         Process.kill("KILL", io.pid)
       end
@@ -65,7 +65,7 @@ module Hell
     def run_in_background!(background_cmd)
       log_file = Time.now.to_i.to_s + '.' + SecureRandom.hex(2)
       cmd = [
-        "cd #{APP_ROOT}",
+        "cd #{HELL_APP_ROOT}",
         "echo '#{background_cmd}' >> #{HELL_LOG_PATH}/#{log_file}.log 2>&1",
         "#{background_cmd} >> #{HELL_LOG_PATH}/#{log_file}.log 2>&1",
         "echo 'Hellish Task Completed' >> #{HELL_LOG_PATH}/#{log_file}.log 2>&1",
@@ -86,7 +86,7 @@ module Hell
     def verify_task(cap, name)
       original_cmd = name.gsub('+', ' ')
       cmd = original_cmd.split(' ')
-      cmd.shift if ENVIRONMENTS.include?(cmd.first)
+      cmd.shift if HELL_ENVIRONMENTS.include?(cmd.first)
       cmd = cmd.join(' ')
 
       tasks = cap.task_index(cmd, {:exact => true})

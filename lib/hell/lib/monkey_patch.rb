@@ -47,8 +47,8 @@ module Capistrano
           tasks.select! {|t| t.fully_qualified_name =~ /#{pattern}/}
         end
 
-        tasks.reject! {|t| BLACKLIST.include?(t.fully_qualified_name)}
-        tasks.reject! {|t| ENVIRONMENTS.include?(t.fully_qualified_name)}
+        tasks.reject! {|t| HELL_BLACKLIST.include?(t.fully_qualified_name)}
+        tasks.reject! {|t| HELL_ENVIRONMENTS.include?(t.fully_qualified_name)}
         tasks.reject! {|t| t.service.include?(opts.fetch(:service))} if opts.fetch(:service, false)
 
         tasks = Hash[tasks.map {|task| [task.fully_qualified_name, task.to_hash]}]

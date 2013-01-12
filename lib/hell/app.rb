@@ -16,20 +16,23 @@ opts = Trollop::options do
   opt :addr,         "set the host (default is 0.0.0.0)",                                       :default => '0.0.0.0'
   opt :server,       "specify rack server/handler (default is thin)",                           :default => 'thin'
   opt :x,            "turn on the mutex lock (default is false)",                               :default => false
+  opt :environments, "comma-separated list of environments (default is production,staging)",    :default => 'production,staging'
+  opt :app_root,     "directory from which capistrano should run (default is #{Dir.pwd})",      :default => Dir.pwd
+  opt :require_env,  "whether or not to require specifying an environment. (default is true)",  :default => true
+  opt :log_path,     "path to hell logs (default is " + File.join(Dir.pwd, 'log') + ")",        :default => File.join(Dir.pwd, 'log')
+  opt :base_dir,     "base directory to use in the web ui (default is /)",                      :default => '/'
+  opt :sentinel,     "sentinel string used to denote the end of a task run (default is /)",     :default => 'Hellish Task Completed'
 end
-HELL_DIR = Dir.pwd
-APP_ROOT = ENV.fetch('HELL_APP_ROOT', HELL_DIR)
-ENVIRONMENTS = ENV.fetch('HELL_ENVIRONMENTS', 'production,staging').split(',')
-BLACKLIST = ['invoke', 'shell', 'internal:ensure_env', 'internal:setup_env']
-REQUIRE_ENV = ENV.fetch('HELL_REQUIRE_ENV', '1') == '1'
-HELL_LOG_PATH = ENV.fetch('HELL_LOG_PATH', File.join(HELL_DIR, 'log'))
-HELL_BASE_DIR = ENV.fetch('HELL_BASE_DIR', '/')
-SENTINEL_STRINGS = ENV.fetch('HELL_SENTINEL_STRINGS', 'Hellish Task Completed').split(',')
-HELL_PORT = opts.port
-HELL_ADDR = opts.addr
-HELL_ENV = opts.env.to_s
-HELL_SERVER = opts.server
-HELL_LOCK = opts.x
+
+HELL_DIR              = Dir.pwd
+HELL_APP_ROOT         = ENV.fetch('HELL_APP_ROOT', opts.app_root)
+HELL_ENVIRONMENTS     = ENV.fetch('HELL_ENVIRONMENTS', opts.environments).split(',')
+HELL_BLACKLIST        = ['invoke', 'shell', 'internal:ensure_env', 'internal:setup_env']
+HELL_REQUIRE_ENV      = !!ENV.fetch('HELL_REQUIRE_ENV', opts.require_env)
+HELL_LOG_PATH         = ENV.fetch('HELL_LOG_PATH', opts.log_path)
+HELL_BASE_DIR         = ENV.fetch('HELL_BASE_DIR', opts.base_dir)
+HELL_SENTINEL_STRINGS = ENV.fetch('HELL_SENTINEL_STRINGS', opts.sentinel).split(',')
+
 HELL_PORT             = opts.port
 HELL_ADDR             = opts.addr
 HELL_SERVER           = opts.server
@@ -89,9 +92,9 @@ module Hell
 
     get '/' do
       @tasks = cap.task_index.keys
-      @require_env = REQUIRE_ENV
+      @require_env = HELL_REQUIRE_ENV
       @www_base_dir = HELL_BASE_DIR
-      @environments = ENVIRONMENTS
+      @environments = HELL_ENVIRONMENTS
       erb :index
     end
 
