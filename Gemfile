@@ -10,5 +10,7 @@ gem 'json'
 
 gem 'sinatra'
 gem 'sinatra-contrib'
+gem 'sinatra-assetpack', :require => 'sinatra/assetpack'
+gem 'sass'
 gem 'thin'
 gem 'websocket'

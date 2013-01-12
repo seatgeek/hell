@@ -4,6 +4,7 @@ require 'sinatra'
 require 'sinatra/base'
 require 'sinatra/json'
 require 'sinatra/streaming'
+require 'sinatra/assetpack'
 
 require 'json'
 require 'securerandom'
@@ -21,12 +22,13 @@ SENTINEL_STRINGS = ENV.fetch('HELL_SENTINEL_STRINGS', 'Hellish Task Completed').
 require 'hell/lib/monkey_patch'
 require 'hell/lib/helpers'
 
-
 module Hell
   class App < Sinatra::Base
     helpers Sinatra::JSON
     helpers Sinatra::Streaming
     helpers Hell::Helpers
+
+    register Sinatra::AssetPack
 
     cap = Capistrano::CLI.parse(["-T"])
 
@@ -35,6 +37,30 @@ module Hell
     set :server, :thin
     set :static, true
     set :views, File.join(File.expand_path('..', __FILE__), 'views')
+
+    assets do
+      css_compression :sass
+
+      js :main, [
+        '/assets/js/jquery.min.js',
+        '/assets/js/underscore.min.js',
+        '/assets/js/backbone.js',
+        '/assets/js/backbone-localstorage.js',
+        '/assets/js/bootstrap.min.js',
+        '/assets/js/bootstrap.growl.js',
+        '/assets/js/timeago.js',
+        '/assets/js/hashchange.min.js',
+        '/assets/js/hell.js',
+      ]
+
+      css :bootstrap, [
+        '/assets/css/bootstrap.min.css',
+        '/assets/css/bootstrap-responsive.css',
+        '/assets/css/hell.css',
+      ]
+
+      prebuild true
+    end
 
     configure :production, :development do
       enable :logging

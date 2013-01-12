@@ -9,9 +9,7 @@
     <meta name="author" content="">
 
     <!-- Le styles -->
-    <link href="<%= @www_base_dir %>assets/css/bootstrap.min.css" rel="stylesheet">
-    <link href="<%= @www_base_dir %>assets/css/bootstrap-responsive.css" rel="stylesheet">
-    <link href="<%= @www_base_dir %>assets/css/hell.css" rel="stylesheet">
+    <%= css :bootstrap %>
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -129,18 +127,7 @@
       HellApp.www_base_dir = '<%= @www_base_dir %>';
     </script>
 
-    <script src="<%= @www_base_dir %>assets/js/jquery.min.js"></script>
-
-    <script src="<%= @www_base_dir %>assets/js/underscore.min.js"></script>
-    <script src="<%= @www_base_dir %>assets/js/backbone.js"></script>
-    <script src="<%= @www_base_dir %>assets/js/backbone-localstorage.js"></script>
-
-    <script src="<%= @www_base_dir %>assets/js/bootstrap.min.js"></script>
-    <script src="<%= @www_base_dir %>assets/js/bootstrap.growl.js"></script>
-    <script src="<%= @www_base_dir %>assets/js/timeago.js"></script>
-    <script src="<%= @www_base_dir %>assets/js/hashchange.min.js"></script>
-
-    <script src="<%= @www_base_dir %>assets/js/hell.js"></script>
+    <%= js :main %>
 
   </body>
 </html>
