@@ -9,6 +9,8 @@ module Capistrano
     end
 
     def to_hash
+      # Roles should always be a hash, to ease developer frustration
+      @options[:roles] = Array(@options[:roles])
       {
         :name => name,
         :fully_qualified_name => fully_qualified_name,
