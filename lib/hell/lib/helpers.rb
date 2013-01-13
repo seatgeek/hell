@@ -89,7 +89,7 @@ module Hell
       cmd.shift if HELL_ENVIRONMENTS.include?(cmd.first)
       cmd = cmd.join(' ')
 
-      tasks = cap.task_index(cmd, {:exact => true})
+      tasks = cap.tasks(cmd, {:exact => true})
       return tasks, original_cmd
     end
 

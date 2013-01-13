@@ -4,7 +4,8 @@ require 'json'
 module Capistrano
   class CLI
     module JsonTaskList
-      def task_before
+
+      def task_list
         config = instantiate_configuration(options)
         config.debug = options[:debug]
         config.dry_run = options[:dry_run]
@@ -16,31 +17,34 @@ module Capistrano
 
         config.trigger(:load)
         [config, options]
-      end
-
-      def task_after(config)
-        config.trigger(:exit)
-        config
-      end
-
-      def task_index(pattern = nil, opts = {})
-        config, options = task_before
 
         tasks = config.task_list(:all)
-        if opts.fetch(:exact, false) && pattern.is_a?(String)
-          tasks.select! {|t| t.fully_qualified_name == pattern}
-        elsif pattern.is_a?(String)
-          tasks.select! {|t| t.fully_qualified_name =~ /#{pattern}/}
-        end
-
         tasks.reject! {|t| HELL_BLACKLIST.include?(t.fully_qualified_name)}
-        tasks.reject! {|t| HELL_ENVIRONMENTS.include?(t.fully_qualified_name)}
-        tasks.reject! {|t| t.service.include?(opts.fetch(:service))} if opts.fetch(:service, false)
-
         tasks = Hash[tasks.map {|task| [task.fully_qualified_name, task.to_hash]}]
-        task_after(config)
+
+        config.trigger(:exit)
 
         tasks
+      end
+
+      def tasks(pattern = nil, opts = {})
+        @available_tasks ||= task_list
+        tasks = @available_tasks.reject {|name, task| is_environment?(task)}
+
+        if pattern.is_a?(String)
+          if opts.fetch(:exact, false)
+            tasks.select! {|name| name == pattern}
+          else
+            tasks.select! {|name| name =~ /#{pattern}/}
+          end
+        end
+
+        tasks
+      end
+
+      def is_environment?(task)
+        return false unless task[:options].include?(:tags)
+        Array(task[:options][:tags]).include?(:hell_env)
       end
     end
   end

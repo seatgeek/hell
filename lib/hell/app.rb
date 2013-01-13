@@ -96,7 +96,7 @@ module Hell
     end
 
     get '/' do
-      @tasks = cap.task_index.keys
+      @tasks = cap.tasks.keys
       @require_env = HELL_REQUIRE_ENV
       @www_base_dir = HELL_BASE_DIR
       @environments = HELL_ENVIRONMENTS
@@ -104,17 +104,17 @@ module Hell
     end
 
     get '/tasks' do
-      tasks = cap.task_index
+      tasks = cap.tasks
       json tasks
     end
 
     get '/tasks/search/:pattern' do
-      tasks = cap.task_index(params[:pattern])
+      tasks = cap.tasks(params[:pattern])
       json tasks
     end
 
     get '/tasks/:name/exists' do
-      tasks = cap.task_index(params[:name], {:exact => true})
+      tasks = cap.tasks(params[:name], {:exact => true})
       response = { :exists => !tasks.empty?, :task => params[:name]}
       json response
     end
