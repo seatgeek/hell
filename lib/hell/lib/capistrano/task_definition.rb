@@ -2,11 +2,6 @@ require 'capistrano/task_definition'
 
 module Capistrano
   class TaskDefinition
-    attr_reader :service
-
-    def service
-      @service ||= Array(@options.delete(:service))
-    end
 
     def to_hash
       # Roles should always be a hash, to ease developer frustration
