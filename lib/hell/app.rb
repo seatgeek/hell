@@ -26,7 +26,6 @@ end
 
 HELL_DIR              = Dir.pwd
 HELL_APP_ROOT         = ENV.fetch('HELL_APP_ROOT', opts.app_root)
-HELL_ENVIRONMENTS     = ENV.fetch('HELL_ENVIRONMENTS', opts.environments).split(',')
 HELL_BLACKLIST        = ['invoke', 'shell', 'internal:ensure_env', 'internal:setup_env']
 HELL_REQUIRE_ENV      = !!ENV.fetch('HELL_REQUIRE_ENV', opts.require_env)
 HELL_LOG_PATH         = ENV.fetch('HELL_LOG_PATH', opts.log_path)
@@ -99,7 +98,7 @@ module Hell
       @tasks = cap.tasks.keys
       @require_env = HELL_REQUIRE_ENV
       @www_base_dir = HELL_BASE_DIR
-      @environments = HELL_ENVIRONMENTS
+      @environments = cap.environments
       erb :index
     end
 

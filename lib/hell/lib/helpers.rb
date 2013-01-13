@@ -86,7 +86,7 @@ module Hell
     def verify_task(cap, name)
       original_cmd = name.gsub('+', ' ')
       cmd = original_cmd.split(' ')
-      cmd.shift if HELL_ENVIRONMENTS.include?(cmd.first)
+      cmd.shift if cap.environments.include?(cmd.first)
       cmd = cmd.join(' ')
 
       tasks = cap.tasks(cmd, {:exact => true})

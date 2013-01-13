@@ -42,9 +42,15 @@ module Capistrano
         tasks
       end
 
+      def environments
+        @available_tasks ||= task_list
+        environments = @available_tasks.select {|name, task| is_environment?(task)}
+        environments.keys
+      end
+
       def is_environment?(task)
-        return false unless task[:options].include?(:tags)
-        Array(task[:options][:tags]).include?(:hell_env)
+        return false unless task[:options].include?(:hell_tags)
+        Array(task[:options][:hell_tags]).include?(:environment)
       end
     end
   end

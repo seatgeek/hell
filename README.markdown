@@ -64,7 +64,6 @@ Note that the current response is subject to change, and as such is not document
 The following environment variables are available for your use:
 
 - `HELL_APP_ROOT`: Path from which capistrano should execute. Defaults to `Dir.pwd`.
-- `HELL_ENVIRONMENTS`: Comma-separated list of environments, Default: `production,staging`.
 - `HELL_REQUIRE_ENV`: Whether or not to require specifying an environment. Default: `1`.
 - `HELL_LOG_PATH`: Path to which logs should be written to. Defaults to `Dir.pwd + '/log'`.
 - `HELL_BASE_DIR`: Base directory to use in web ui. Useful for subdirectories. Defaults to `/`.
