@@ -14,6 +14,7 @@ module Capistrano
         :fully_qualified_name => fully_qualified_name,
         :description => description == brief_description ? false : description,
         :brief_description => brief_description,
+        :options => @options,
       }
     end
   end
