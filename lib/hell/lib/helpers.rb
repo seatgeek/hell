@@ -65,11 +65,10 @@ module Hell
     def run_in_background!(background_cmd)
       log_file = Time.now.to_i.to_s + '.' + SecureRandom.hex(2)
       cmd = [
-        "cd #{HELL_APP_ROOT}",
-        "echo '#{background_cmd}' >> #{HELL_LOG_PATH}/#{log_file}.log 2>&1",
-        "#{background_cmd} >> #{HELL_LOG_PATH}/#{log_file}.log 2>&1",
-        "echo 'Hellish Task Completed' >> #{HELL_LOG_PATH}/#{log_file}.log 2>&1",
-      ].join(" && ")
+        "cd #{HELL_APP_ROOT} && echo '#{background_cmd}' >> #{HELL_LOG_PATH}/#{log_file}.log 2>&1",
+        "cd #{HELL_APP_ROOT} && #{background_cmd} >> #{HELL_LOG_PATH}/#{log_file}.log 2>&1",
+        "cd #{HELL_APP_ROOT} && echo 'Hellish Task Completed' >> #{HELL_LOG_PATH}/#{log_file}.log 2>&1",
+      ].join(" ; ")
       system("sh -c \"#{cmd}\" &")
 
       # Wait up to three seconds in case of server load
