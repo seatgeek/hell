@@ -10,37 +10,12 @@ require 'json'
 require 'securerandom'
 require 'websocket'
 
-# TODO: Refactor
-options = {}
-options[:app_root] = ENV.fetch('HELL_APP_ROOT', Dir.pwd)
-options[:base_path] = ENV.fetch('HELL_BASE_PATH', '/')
-options[:log_path] = ENV.fetch('HELL_LOG_PATH', File.join(Dir.pwd, 'log'))
-options[:require_env] = !!ENV.fetch('HELL_REQUIRE_ENV', true)
-options[:sentinel] = ENV.fetch('HELL_SENTINEL_STRINGS', 'Hellish Task Completed').split(',')
+require 'hell/lib/cli'
+require 'hell/lib/monkey_patch'
+require 'hell/lib/helpers'
 
-op = OptionParser.new do |opts|
-  opts.on('-a', '--app-root APP_ROOT', 'directory from which capistrano should run') do |opt|
-    options[:app_root] = opt if opt
-  end
-
-  opts.on('-b', '--base-path BASE_PATH', 'base directory path to use in the web ui') do |opt|
-    options[:base_path] = opt if opt
-  end
-
-  opts.on('-L', '--log-path LOG_PATH', 'directory path to hell logs') do |opt|
-    options[:log_path] = opt if opt
-  end
-
-  opts.on('-R', '--require-env REQUIRE_ENV', 'whether or not to require specifying an environment') do |opt|
-    options[:require_env] = !!opt if opt
-  end
-
-  opts.on('-S', '--sentinel', 'sentinel string used to denote the end of a task run') do |opt|
-    options[:sentinel] = opt.split(',') if opt
-  end
-
-  opts.parse! ARGV
-end
+options, op = Hell::CLI.option_parser(ARGV, nil, true)
+op = nil
 
 HELL_DIR              = Dir.pwd
 HELL_APP_ROOT         = options[:app_root]
@@ -49,11 +24,6 @@ HELL_REQUIRE_ENV      = !!options[:require_env]
 HELL_LOG_PATH         = options[:log_path]
 HELL_BASE_PATH        = options[:base_path]
 HELL_SENTINEL_STRINGS = options[:sentinel]
-
-op = nil
-
-require 'hell/lib/monkey_patch'
-require 'hell/lib/helpers'
 
 module Hell
   class App < Sinatra::Base
