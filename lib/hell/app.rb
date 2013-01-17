@@ -72,15 +72,15 @@ module Hell
     assets do
       css_compression :sass
 
+      js :jquery, [
+        '/assets/js/jquery.js',
+      ]
+
       js :main, [
-        '/assets/js/jquery.min.js',
-        '/assets/js/underscore.min.js',
-        '/assets/js/backbone.js',
         '/assets/js/backbone-localstorage.js',
-        '/assets/js/bootstrap.min.js',
         '/assets/js/bootstrap.growl.js',
         '/assets/js/timeago.js',
-        '/assets/js/hashchange.min.js',
+        '/assets/js/hashchange.js',
         '/assets/js/hell.js',
       ]
 

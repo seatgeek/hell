@@ -127,6 +127,10 @@
       HellApp.www_base_dir = '<%= @www_base_dir %>';
     </script>
 
+    <%= js :jquery %>
+    <script src="<%= @www_base_dir %>assets/js/bootstrap.js"></script>
+    <script src="<%= @www_base_dir %>assets/js/underscore.js"></script>
+    <script src="<%= @www_base_dir %>assets/js/backbone.js"></script>
     <%= js :main %>
 
   </body>
