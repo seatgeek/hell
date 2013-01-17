@@ -8,34 +8,49 @@ require 'sinatra/assetpack'
 
 require 'json'
 require 'securerandom'
-require 'trollop'
 require 'websocket'
 
-opts = Trollop::options do
-  opt :port,         "set the host",                                             :default => 4567,        :type => :integer
-  opt :addr,         "set the host",                                             :default => '0.0.0.0'
-  opt :server,       "specify rack server/handler",                              :default => 'thin'
-  opt :x,            "turn on the mutex lock (default is false)",                :default => false
-  opt :environments, "comma-separated list of environments",                     :default => 'production,staging'
-  opt :app_root,     "directory from which capistrano should run",               :default => Dir.pwd
-  opt :require_env,  "whether or not to require specifying an environment",      :default => true
-  opt :log_path,     "path to hell logs",                                        :default => File.join(Dir.pwd, 'log')
-  opt :base_dir,     "base directory to use in the web ui",                      :default => '/'
-  opt :sentinel,     "sentinel string used to denote the end of a task run",     :default => 'Hellish Task Completed'
+# TODO: Refactor
+options = {}
+options[:app_root] = ENV.fetch('HELL_APP_ROOT', Dir.pwd)
+options[:base_path] = ENV.fetch('HELL_BASE_PATH', '/')
+options[:log_path] = ENV.fetch('HELL_LOG_PATH', File.join(Dir.pwd, 'log'))
+options[:require_env] = !!ENV.fetch('HELL_REQUIRE_ENV', true)
+options[:sentinel] = ENV.fetch('HELL_SENTINEL_STRINGS', 'Hellish Task Completed').split(',')
+
+op = OptionParser.new do |opts|
+  opts.on('-a', '--app-root APP_ROOT', 'directory from which capistrano should run') do |opt|
+    options[:app_root] = opt if opt
+  end
+
+  opts.on('-b', '--base-path BASE_PATH', 'base directory path to use in the web ui') do |opt|
+    options[:base_path] = opt if opt
+  end
+
+  opts.on('-L', '--log-path LOG_PATH', 'directory path to hell logs') do |opt|
+    options[:log_path] = opt if opt
+  end
+
+  opts.on('-R', '--require-env REQUIRE_ENV', 'whether or not to require specifying an environment') do |opt|
+    options[:require_env] = !!opt if opt
+  end
+
+  opts.on('-S', '--sentinel', 'sentinel string used to denote the end of a task run') do |opt|
+    options[:sentinel] = opt.split(',') if opt
+  end
+
+  opts.parse! ARGV
 end
 
 HELL_DIR              = Dir.pwd
-HELL_APP_ROOT         = ENV.fetch('HELL_APP_ROOT', opts.app_root)
+HELL_APP_ROOT         = options[:app_root]
 HELL_BLACKLIST        = ['invoke', 'shell', 'internal:ensure_env', 'internal:setup_env']
-HELL_REQUIRE_ENV      = !!ENV.fetch('HELL_REQUIRE_ENV', opts.require_env)
-HELL_LOG_PATH         = ENV.fetch('HELL_LOG_PATH', opts.log_path)
-HELL_BASE_DIR         = ENV.fetch('HELL_BASE_DIR', opts.base_dir)
-HELL_SENTINEL_STRINGS = ENV.fetch('HELL_SENTINEL_STRINGS', opts.sentinel).split(',')
+HELL_REQUIRE_ENV      = !!options[:require_env]
+HELL_LOG_PATH         = options[:log_path]
+HELL_BASE_PATH        = options[:base_path]
+HELL_SENTINEL_STRINGS = options[:sentinel]
 
-HELL_PORT             = opts.port
-HELL_ADDR             = opts.addr
-HELL_SERVER           = opts.server
-HELL_LOCK             = opts.x
+op = nil
 
 require 'hell/lib/monkey_patch'
 require 'hell/lib/helpers'
@@ -53,11 +68,6 @@ module Hell
     set :server, :thin
     set :static, true
     set :views, File.join(File.expand_path('..', __FILE__), 'views')
-
-    set :port, HELL_PORT
-    set :bind, HELL_ADDR
-    set :server, HELL_SERVER
-    set :lock, HELL_LOCK
 
     assets do
       css_compression :sass
