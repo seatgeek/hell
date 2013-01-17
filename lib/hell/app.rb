@@ -107,7 +107,7 @@ module Hell
     get '/' do
       @tasks = cap.tasks.keys
       @require_env = HELL_REQUIRE_ENV
-      @www_base_dir = HELL_BASE_DIR
+      @www_base_dir = HELL_BASE_PATH
       @environments = cap.environments
       erb :index
     end
