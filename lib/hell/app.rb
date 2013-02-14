@@ -129,9 +129,9 @@ module Hell
     get '/logs/:id/tail' do
       content_type "text/event-stream"
       if valid_log params[:id]
-        _stream_success("tail -f %s" % File.join(HELL_LOG_PATH, params[:id] + ".log"))
+        send_success(params[:id], "tail -f %s" % File.join(HELL_LOG_PATH, params[:id] + ".log"))
       else
-        _stream_error("log file '#{params[:id]}' not found")
+        send_error(params[:id], "log file '#{params[:id]}' not found")
       end
     end
 
@@ -143,35 +143,62 @@ module Hell
 
     get '/tasks/:name/execute' do
       tasks, original_cmd = verify_task(cap, params[:name])
+      task_id = random_id
       content_type "text/event-stream"
       if tasks.empty?
-        _stream_error("cap task '#{original_cmd}' not found")
+        send_error(task_id, "cap task '#{original_cmd}' not found")
       else
-        _stream_success("bundle exec cap -l STDOUT #{original_cmd} LOGGING=debug 2>&1", {:prepend => true})
+        send_success(task_id, "bundle exec cap -l STDOUT #{original_cmd} LOGGING=debug 2>&1", {:prepend => true})
       end
     end
 
-    def _stream_error(message)
+    def self.init_send
+      if USE_PUSHER
+        alias_method :send_error, :_pusher_error
+        alias_method :send_success, :_pusher_success
+      else
+        alias_method :send_error, :_stream_error
+        alias_method :send_success, :_stream_success
+      end
+    end
+
+    def _pusher_error(task_id, message)
+      Pusher[task_id].trigger('start', {:data => ''})
+      Pusher[task_id].trigger('message', ws_message("<p>#{message}</p>"))
+      Pusher[task_id].trigger('end', {:data => ''})
+    end
+
+    def _pusher_success(task_id, command, opts = {})
+      opts = {:prepend => false}.merge(opts)
+      Pusher[task_id].trigger('start', {:data => ''})
+      Pusher[task_id].trigger('message', ws_message("<p>#{command}</p>")) unless opts[:prepend] == false
+      IO.popen(command, 'rb') do |io|
+        io.each {|line| push_line(task_id, line, out, io)}
+      end
+      Pusher[task_id].trigger('end', {:data => ''})
+    end
+
+    def _stream_error(task_id, message)
       stream do |out|
         out << "event: start\ndata:\n\n" unless out.closed?
-        out << "data: " + ws_message("<p>#{message}</p>") unless out.closed?
+        out << "data: " + ws_message("<p>#{message}</p>")  + "\n\n" unless out.closed?
         out << "event: end\ndata:\n\n" unless out.closed?
         out.close
       end
     end
 
-    def _stream_success(command, opts = {})
+    def _stream_success(task_id, command, opts = {})
       opts = {:prepend => false}.merge(opts)
       stream do |out|
         out << "event: start\ndata:\n\n" unless out.closed?
-        out << "data: " + ws_message("<p>#{command}</p>") unless out.closed? or opts[:prepend] == false
+        out << "data: " + ws_message("<p>#{command}</p>") + "\n\n" unless out.closed? or opts[:prepend] == false
         IO.popen(command, 'rb') do |io|
-          io.each do |line|
-            process_line(line, out, io)
-          end
+          io.each {|line| stream_line(task_id, line, out, io)}
         end
         close_stream(out)
       end
     end
+
+    init_send
   end
 end
