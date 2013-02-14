@@ -99,7 +99,7 @@ module Hell
     end
 
     def verify_task(cap, name)
-      original_cmd = name.gsub('+', ' ')
+      original_cmd = name.gsub('+', ' ').gsub!(/\s+/, ' ').strip
       cmd = original_cmd.split(' ')
       cmd.shift if cap.environments.include?(cmd.first)
       cmd = cmd.join(' ')
