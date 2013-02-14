@@ -57,7 +57,7 @@ module Hell
           require library
         end
 
-        opts.separator "#{cmd} options:"
+        opts.separator "Unicorn options:"
 
         # some of these switches exist for rackup command-line compatibility,
 
