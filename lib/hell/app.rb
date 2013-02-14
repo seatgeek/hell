@@ -109,7 +109,7 @@ module Hell
     get '/tasks/:name/background' do
       tasks, original_cmd = verify_task(cap, params[:name])
       verbose = ""
-      verbose = "LOGGING=debug" if params[:verbose] == true
+      verbose = "LOGGING=debug" if params[:verbose] == "on"
 
       task_id = run_in_background!("bundle exec cap -l STDOUT %s %s" % [original_cmd, verbose]) unless tasks.empty?
       response = {}
