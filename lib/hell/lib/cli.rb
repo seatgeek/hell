@@ -139,7 +139,7 @@ module Hell
           options[:require_env] = !!opt if opt && sinatra_opts
         end
 
-        opts.on('-S', '--sentinel', 'sentinel string used to denote the end of a task run') do |opt|
+        opts.on('-S', '--sentinel SENTINAL_PHRASE', 'sentinel phrase used to denote the end of a task run') do |opt|
           options[:sentinel] = opt.split(',') if opt && sinatra_opts
         end
 
