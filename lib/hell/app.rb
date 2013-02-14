@@ -8,7 +8,6 @@ require 'sinatra/assetpack'
 
 require 'json'
 require 'securerandom'
-require 'websocket'
 
 require 'hell/lib/cli'
 require 'hell/lib/monkey_patch'

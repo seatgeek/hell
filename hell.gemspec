@@ -71,7 +71,6 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<sinatra>, [">= 0"])
       s.add_runtime_dependency(%q<sinatra-contrib>, [">= 0"])
       s.add_runtime_dependency(%q<thin>, [">= 0"])
-      s.add_runtime_dependency(%q<websocket>, [">= 0"])
       s.add_development_dependency(%q<jeweler>, [">= 0"])
     else
       s.add_dependency(%q<capistrano>, [">= 0"])
@@ -79,7 +78,6 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<sinatra>, [">= 0"])
       s.add_dependency(%q<sinatra-contrib>, [">= 0"])
       s.add_dependency(%q<thin>, [">= 0"])
-      s.add_dependency(%q<websocket>, [">= 0"])
       s.add_dependency(%q<jeweler>, [">= 0"])
     end
   else
@@ -88,7 +86,6 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<sinatra>, [">= 0"])
     s.add_dependency(%q<sinatra-contrib>, [">= 0"])
     s.add_dependency(%q<thin>, [">= 0"])
-    s.add_dependency(%q<websocket>, [">= 0"])
     s.add_dependency(%q<jeweler>, [">= 0"])
   end
 end
