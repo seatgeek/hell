@@ -14,7 +14,7 @@ require 'hell/lib/cli'
 require 'hell/lib/monkey_patch'
 require 'hell/lib/helpers'
 
-options, op = Hell::CLI.option_parser(ARGV, nil, true)
+options, op = Hell::CLI.option_parser(ARGV)
 op = nil
 
 HELL_DIR              = Dir.pwd

@@ -6,7 +6,7 @@ require 'hell/lib/cli'
 ENV["RACK_ENV"] ||= "development"
 
 unicorn_path = File.expand_path('../../unicorn', __FILE__)
-options, op = Hell::CLI.option_parser(ARGV, unicorn_path)
+options, op = Hell::CLI.unicorn_options(ARGV, unicorn_path)
 
 unless File.directory? options[:log_path]
   abort('Missing hell log path %s' % options[:log_path])

@@ -4,7 +4,7 @@ require 'optparse'
 
 module Hell
   class CLI
-    def self.default_options(unicorn_path=nil, sinatra_opts=false)
+    def self.default_options(unicorn_path=nil)
       rackup_opts = Unicorn::Configurator::RACKUP || {}
       rackup_opts[:port] = 4567
 
@@ -14,21 +14,35 @@ module Hell
 
       options[:log_path] = ENV.fetch('HELL_LOG_PATH', File.join(Dir.pwd, 'log'))
 
-      if sinatra_opts
-        options[:app_root] = ENV.fetch('HELL_APP_ROOT', Dir.pwd)
-        options[:base_path] = ENV.fetch('HELL_BASE_PATH', '/')
-        options[:require_env] = !!ENV.fetch('HELL_REQUIRE_ENV', true)
-        options[:sentinel] = ENV.fetch('HELL_SENTINEL_STRINGS', 'Hellish Task Completed').split(',')
-        options[:pusher_app_id] = ENV.fetch('HELL_PUSHER_APP_ID', nil)
-        options[:pusher_key] = ENV.fetch('HELL_PUSHER_KEY', nil)
-        options[:pusher_secret] = ENV.fetch('HELL_PUSHER_SECRET', nil)
-      end
+      options[:app_root] = ENV.fetch('HELL_APP_ROOT', Dir.pwd)
+      options[:base_path] = ENV.fetch('HELL_BASE_PATH', '/')
+      options[:require_env] = !!ENV.fetch('HELL_REQUIRE_ENV', true)
+      options[:sentinel] = ENV.fetch('HELL_SENTINEL_STRINGS', 'Hellish Task Completed').split(',')
+      options[:pusher_app_id] = ENV.fetch('HELL_PUSHER_APP_ID', nil)
+      options[:pusher_key] = ENV.fetch('HELL_PUSHER_KEY', nil)
+      options[:pusher_secret] = ENV.fetch('HELL_PUSHER_SECRET', nil)
 
       options
     end
 
-    def self.option_parser(args, unicorn_path=nil, sinatra_opts=false)
-      options = Hell::CLI.default_options(unicorn_path, sinatra_opts)
+    def self.unicorn_options(args, unicorn_path=nil)
+      options, op = Hell::CLI.option_parser(args, unicorn_path)
+
+      [
+        :app_root,
+        :base_path,
+        :require_env,
+        :sentinel,
+        :pusher_app_id,
+        :pusher_key,
+        :pusher_secret,
+      ].each {|key| options.delete(key)}
+
+      [options, op]
+    end
+
+    def self.option_parser(args, unicorn_path=nil)
+      options = Hell::CLI.default_options(unicorn_path)
 
       op = OptionParser.new("", 24, '  ') do |opts|
         cmd = File.basename($0)
@@ -114,7 +128,7 @@ module Hell
         # config files and make things unnecessarily complicated with multiple
         # places to look for a config option.
 
-        opts.separator "Common options:"
+        opts.separator "Common options (will not work under unicorn):"
 
         opts.on_tail("-h", "--help", "Show this message") do
           puts opts.to_s.gsub(/^.*DEPRECATED.*$/s, '')
@@ -126,39 +140,39 @@ module Hell
           exit
         end
 
-        opts.on('-a', '--app-root APP_ROOT', 'directory from which capistrano should run') do |opt|
-          options[:app_root] = opt if opt && sinatra_opts
+        opts.on('-a', '--app-root APP_ROOT', 'directory from which capistrano should run') do |app_root|
+          options[:app_root] = app_root if app_root
         end
 
-        opts.on('-b', '--base-path BASE_PATH', 'base directory path to use in the web ui') do |opt|
-          options[:base_path] = opt if opt && sinatra_opts
+        opts.on('-b', '--base-path BASE_PATH', 'base directory path to use in the web ui') do |base_path|
+          options[:base_path] = base_path if base_path
         end
 
-        opts.on('-L', '--log-path LOG_PATH', 'directory path to hell logs') do |opt|
-          options[:log_path] = opt if opt
+        opts.on('-L', '--log-path LOG_PATH', 'directory path to hell logs') do |log_path|
+          options[:log_path] = log_path if log_path
         end
 
-        opts.on('-R', '--require-env REQUIRE_ENV', 'whether or not to require specifying an environment') do |opt|
-          options[:require_env] = !!opt if opt && sinatra_opts
+        opts.on('-R', '--require-env REQUIRE_ENV', 'whether or not to require specifying an environment') do |require_env|
+          options[:require_env] = !!require_env if require_env
         end
 
-        opts.on('-S', '--sentinel SENTINAL_PHRASE', 'sentinel phrase used to denote the end of a task run') do |opt|
-          options[:sentinel] = opt.split(',') if opt && sinatra_opts
+        opts.on('-S', '--sentinel SENTINAL_PHRASE', 'sentinel phrase used to denote the end of a task run') do |sentinel|
+          options[:sentinel] = sentinel.split(',') if sentinel
         end
 
-        opts.on('--pusher-app-id PUSHER_APP_ID', 'pusher app id') do |opt|
-          options[:pusher_app_id] = opt if opt && sinatra_opts
+        opts.on('--pusher-app-id PUSHER_APP_ID', 'pusher app id') do |pusher_app_id|
+          options[:pusher_app_id] = pusher_app_id if pusher_app_id
         end
 
-        opts.on('--pusher-key PUSHER_KEY', 'pusher key') do |opt|
-          options[:pusher_key] = opt if opt && sinatra_opts
+        opts.on('--pusher-key PUSHER_KEY', 'pusher key') do |pusher_key|
+          options[:pusher_key] = pusher_key if pusher_key
         end
 
-        opts.on('--pusher-secret PUSHER_SECRET', 'pusher secret') do |opt|
-          options[:pusher_secret] = opt if opt && sinatra_opts
+        opts.on('--pusher-secret PUSHER_SECRET', 'pusher secret') do |pusher_secret|
+          options[:pusher_secret] = pusher_secret if pusher_secret
         end
 
-        opts.parse! ARGV
+        opts.parse! args
       end
 
       [options, op]
