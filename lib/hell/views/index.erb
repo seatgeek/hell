@@ -8,15 +8,12 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <!-- Le styles -->
     <%= css :bootstrap %>
 
-    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 
-    <!-- Fav and touch icons -->
     <link rel="shortcut icon" href="<%= @www_base_dir %>assets/ico/favicon.ico">
   </head>
 
@@ -95,7 +92,7 @@
         </div>
       </div>
 
-    </div> <!-- /container -->
+    </div>
 
     <script type="text/template" id="task-template">
       <td>
@@ -116,9 +113,6 @@
       </td>
     </script>
 
-    <!-- Le javascript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
     <script>
       window.HellApp = window.HellApp || {};
       HellApp.require_env = '<%= @require_env %>';
