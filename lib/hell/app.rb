@@ -6,6 +6,7 @@ require 'sinatra/json'
 require 'sinatra/streaming'
 require 'sinatra/assetpack'
 
+require 'pusher'
 require 'multi_json'
 require 'securerandom'
 
@@ -23,6 +24,16 @@ HELL_REQUIRE_ENV      = !!options[:require_env]
 HELL_LOG_PATH         = options[:log_path]
 HELL_BASE_PATH        = options[:base_path]
 HELL_SENTINEL_STRINGS = options[:sentinel]
+
+USE_PUSHER = !!(options[:pusher_app_id] && options[:pusher_key] && options[:pusher_secret])
+
+PUSHER_APP_ID = options[:pusher_app_id]
+PUSHER_KEY = options[:pusher_key]
+PUSHER_SECRET = options[:pusher_secret]
+
+Pusher.app_id = PUSHER_APP_ID
+Pusher.key = PUSHER_KEY
+Pusher.secret = PUSHER_SECRET
 
 module Hell
   class App < Sinatra::Base
@@ -78,6 +89,11 @@ module Hell
       @require_env = HELL_REQUIRE_ENV
       @www_base_dir = HELL_BASE_PATH
       @environments = cap.environments
+
+      @use_pusher = USE_PUSHER
+      @pusher_app_id = PUSHER_APP_ID
+      @pusher_key = PUSHER_KEY
+      @pusher_secret = PUSHER_SECRET
       erb :index
     end
 

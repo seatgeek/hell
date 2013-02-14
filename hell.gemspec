@@ -68,6 +68,7 @@ Gem::Specification.new do |s|
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<capistrano>, [">= 0"])
       s.add_runtime_dependency(%q<multi_json>, [">= 0"])
+      s.add_runtime_dependency(%q<pusher>, [">= 0"])
       s.add_runtime_dependency(%q<sinatra>, [">= 0"])
       s.add_runtime_dependency(%q<sinatra-contrib>, [">= 0"])
       s.add_runtime_dependency(%q<thin>, [">= 0"])
@@ -75,6 +76,7 @@ Gem::Specification.new do |s|
     else
       s.add_dependency(%q<capistrano>, [">= 0"])
       s.add_dependency(%q<multi_json>, [">= 0"])
+      s.add_dependency(%q<pusher>, [">= 0"])
       s.add_dependency(%q<sinatra>, [">= 0"])
       s.add_dependency(%q<sinatra-contrib>, [">= 0"])
       s.add_dependency(%q<thin>, [">= 0"])
@@ -83,6 +85,7 @@ Gem::Specification.new do |s|
   else
     s.add_dependency(%q<capistrano>, [">= 0"])
     s.add_dependency(%q<multi_json>, [">= 0"])
+    s.add_dependency(%q<pusher>, [">= 0"])
     s.add_dependency(%q<sinatra>, [">= 0"])
     s.add_dependency(%q<sinatra-contrib>, [">= 0"])
     s.add_dependency(%q<thin>, [">= 0"])

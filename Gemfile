@@ -8,6 +8,7 @@ end
 gem 'capistrano'
 gem 'multi_json'
 
+gem 'pusher'
 gem 'sinatra'
 gem 'sinatra-contrib'
 gem 'sinatra-assetpack', :require => 'sinatra/assetpack'

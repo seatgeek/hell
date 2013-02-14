@@ -19,6 +19,9 @@ module Hell
         options[:base_path] = ENV.fetch('HELL_BASE_PATH', '/')
         options[:require_env] = !!ENV.fetch('HELL_REQUIRE_ENV', true)
         options[:sentinel] = ENV.fetch('HELL_SENTINEL_STRINGS', 'Hellish Task Completed').split(',')
+        options[:pusher_app_id] = ENV.fetch('HELL_PUSHER_APP_ID', nil)
+        options[:pusher_key] = ENV.fetch('HELL_PUSHER_KEY', nil)
+        options[:pusher_secret] = ENV.fetch('HELL_PUSHER_SECRET', nil)
       end
 
       options
@@ -141,6 +144,18 @@ module Hell
 
         opts.on('-S', '--sentinel SENTINAL_PHRASE', 'sentinel phrase used to denote the end of a task run') do |opt|
           options[:sentinel] = opt.split(',') if opt && sinatra_opts
+        end
+
+        opts.on('--pusher-app-id PUSHER_APP_ID', 'pusher app id') do |opt|
+          options[:pusher_app_id] = opt if opt && sinatra_opts
+        end
+
+        opts.on('--pusher-key PUSHER_KEY', 'pusher key') do |opt|
+          options[:pusher_key] = opt if opt && sinatra_opts
+        end
+
+        opts.on('--pusher-secret PUSHER_SECRET', 'pusher secret') do |opt|
+          options[:pusher_secret] = opt if opt && sinatra_opts
         end
 
         opts.parse! ARGV
