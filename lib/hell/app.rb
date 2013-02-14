@@ -106,7 +106,7 @@ module Hell
       json response
     end
 
-    get '/tasks/:name/background' do
+    put '/tasks/:name/background' do
       tasks, original_cmd = verify_task(cap, params[:name])
       verbose = ""
       verbose = "LOGGING=debug" if params[:verbose] == "on"
