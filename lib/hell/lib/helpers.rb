@@ -134,5 +134,22 @@ module Hell
     def json_encode(data)
       MultiJson.dump(data)
     end
+
+    def pusher_error(task_id, message)
+      Pusher[task_id].trigger('start', {:data => ''})
+      Pusher[task_id].trigger('message', ws_message("<p>#{message}</p>"))
+      Pusher[task_id].trigger('end', {:data => ''})
+    end
+
+    def pusher_success(task_id, command, opts = {})
+      opts = {:prepend => false}.merge(opts)
+      Pusher[task_id].trigger('start', {:data => ''})
+      Pusher[task_id].trigger('message', ws_message("<p>#{command}</p>")) unless opts[:prepend] == false
+      IO.popen(command, 'rb') do |io|
+        io.each {|line| push_line(task_id, line, out, io)}
+      end
+      Pusher[task_id].trigger('end', {:data => ''})
+    end
+
   end
 end

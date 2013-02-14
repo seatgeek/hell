@@ -145,16 +145,6 @@ module Hell
       end
     end
 
-    def self.init_send
-      if USE_PUSHER
-        alias_method :send_error, :_pusher_error
-        alias_method :send_success, :_pusher_success
-      else
-        alias_method :send_error, :_stream_error
-        alias_method :send_success, :_stream_success
-      end
-    end
-
     def cap
       FileUtils.chdir HELL_APP_ROOT do
         @cap ||= Capistrano::CLI.parse(["-T"])
@@ -162,23 +152,7 @@ module Hell
       return @cap
     end
 
-    def _pusher_error(task_id, message)
-      Pusher[task_id].trigger('start', {:data => ''})
-      Pusher[task_id].trigger('message', ws_message("<p>#{message}</p>"))
-      Pusher[task_id].trigger('end', {:data => ''})
-    end
-
-    def _pusher_success(task_id, command, opts = {})
-      opts = {:prepend => false}.merge(opts)
-      Pusher[task_id].trigger('start', {:data => ''})
-      Pusher[task_id].trigger('message', ws_message("<p>#{command}</p>")) unless opts[:prepend] == false
-      IO.popen(command, 'rb') do |io|
-        io.each {|line| push_line(task_id, line, out, io)}
-      end
-      Pusher[task_id].trigger('end', {:data => ''})
-    end
-
-    def _stream_error(task_id, message)
+    def send_error(task_id, message)
       stream do |out|
         out << "event: start\ndata:\n\n" unless out.closed?
         out << "data: " + ws_message("<p>#{message}</p>")  + "\n\n" unless out.closed?
@@ -187,7 +161,7 @@ module Hell
       end
     end
 
-    def _stream_success(task_id, command, opts = {})
+    def send_success(task_id, command, opts = {})
       opts = {:prepend => false}.merge(opts)
       stream do |out|
         out << "event: start\ndata:\n\n" unless out.closed?
@@ -199,6 +173,5 @@ module Hell
       end
     end
 
-    init_send
   end
 end
