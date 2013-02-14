@@ -1,3 +1,5 @@
+require 'multi_json'
+
 module Hell
   class TailDone < StandardError; end
 
@@ -113,6 +115,10 @@ module Hell
         end
         s
       end
+    end
+
+    def json_encode(data)
+      MultiJson.dump(data)
     end
   end
 end

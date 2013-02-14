@@ -115,10 +115,14 @@
 
     <script>
       window.HellApp = window.HellApp || {};
-      HellApp.require_env = '<%= @require_env %>';
-      HellApp.environments = [ "<%= @environments.join('","')%>" ];
-      HellApp.tasks = [ "<%= @tasks.join('","')%>" ];
-      HellApp.www_base_dir = '<%= @www_base_dir %>';
+      HellApp.require_env = <%= json_encode(@require_env) %>;
+      HellApp.environments = <%= json_encode(@environments) %>;
+      HellApp.tasks = <%= json_encode(@tasks) %>;
+      HellApp.www_base_dir = <%= json_encode(@www_base_dir) %>;
+      HellApp.use_pusher = <%= json_encode(@use_pusher) %>;
+      HellApp.pusher_app_id = <%= json_encode(@pusher_app_id) %>;
+      HellApp.pusher_key = <%= json_encode(@pusher_key) %>;
+      HellApp.pusher_secret = <%= json_encode(@pusher_secret) %>;
     </script>
 
     <%= js :jquery %>
