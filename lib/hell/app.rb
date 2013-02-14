@@ -6,7 +6,7 @@ require 'sinatra/json'
 require 'sinatra/streaming'
 require 'sinatra/assetpack'
 
-require 'json'
+require 'multi_json'
 require 'securerandom'
 
 require 'hell/lib/cli'

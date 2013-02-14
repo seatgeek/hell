@@ -6,7 +6,7 @@ end
 
 
 gem 'capistrano'
-gem 'json'
+gem 'multi_json'
 
 gem 'sinatra'
 gem 'sinatra-contrib'
