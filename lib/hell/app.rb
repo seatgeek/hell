@@ -77,13 +77,6 @@ module Hell
       enable :logging
     end
 
-    def cap
-      FileUtils.chdir HELL_APP_ROOT do
-        @cap ||= Capistrano::CLI.parse(["-T"])
-      end
-      return @cap
-    end
-
     get '/' do
       @tasks = cap.tasks.keys
       @require_env = HELL_REQUIRE_ENV
@@ -160,6 +153,13 @@ module Hell
         alias_method :send_error, :_stream_error
         alias_method :send_success, :_stream_success
       end
+    end
+
+    def cap
+      FileUtils.chdir HELL_APP_ROOT do
+        @cap ||= Capistrano::CLI.parse(["-T"])
+      end
+      return @cap
     end
 
     def _pusher_error(task_id, message)
