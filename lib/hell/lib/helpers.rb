@@ -5,6 +5,7 @@ module Hell
   class TailDone < StandardError; end
 
   module Helpers
+
     def escape_to_html(data)
       {
         1 => :nothing,
@@ -44,11 +45,11 @@ module Hell
     end
 
     def ansi_escape(message)
-      escape_to_html(utf8_dammit(message))
+      Hell::Helpers::escape_to_html(Hell::Helpers::utf8_dammit(message))
     end
 
     def ws_message(message)
-      message = {:message => ansi_escape(message)}.to_json
+      {:message => Hell::Helpers::ansi_escape(message)}
     end
 
     def stream_line(task_id, line, out, io)
@@ -60,11 +61,11 @@ module Hell
       end
     end
 
-    def push_line(task_id, line, out, io)
+    def push_line(task_id, line, io)
       begin
-        Pusher[task_id].trigger('message', ws_message(line))
+        Pusher[task_id].trigger('message', MultiJson.dump(Hell::Helpers::ws_message(line)))
         raise TailDone if HELL_SENTINEL_STRINGS.any? { |w| line =~ /#{w}/ }
-      rescue
+      rescue StandardError => e
         Process.kill("KILL", io.pid)
       end
     end
@@ -96,6 +97,11 @@ module Hell
       end
 
       log_file
+    end
+
+    def tail_in_background!(task_id)
+      cmd = "cd #{HELL_LOG_PATH} && HELL_TASK_ID='#{task_id}' HELL_SENTINEL_STRINGS='#{HELL_SENTINEL_STRINGS.join(',')}' HELL_LOG_PATH='#{HELL_LOG_PATH}' bundle exec hell-pusher"
+      system("sh -c \"#{cmd}\" &")
     end
 
     def verify_task(cap, name)
@@ -136,20 +142,32 @@ module Hell
     end
 
     def pusher_error(task_id, message)
-      Pusher[task_id].trigger('start', {:data => ''})
-      Pusher[task_id].trigger('message', ws_message("<p>#{message}</p>"))
-      Pusher[task_id].trigger('end', {:data => ''})
+      Pusher[task_id].trigger('start', MultiJson.dump(Hell::Helpers::ws_message("<p>start</p>")))
+      Pusher[task_id].trigger('message', MultiJson.dump(Hell::Helpers::ws_message("<p>#{message}</p>")))
+      Pusher[task_id].trigger('end', MultiJson.dump(Hell::Helpers::ws_message("<p>end</p>")))
     end
 
     def pusher_success(task_id, command, opts = {})
+      out = nil
       opts = {:prepend => false}.merge(opts)
-      Pusher[task_id].trigger('start', {:data => ''})
-      Pusher[task_id].trigger('message', ws_message("<p>#{command}</p>")) unless opts[:prepend] == false
+      Pusher[task_id].trigger('start', MultiJson.dump(Hell::Helpers::ws_message("<p>start</p>")))
+      Pusher[task_id].trigger('message', MultiJson.dump(Hell::Helpers::ws_message("<p>#{command}</p>"))) unless opts[:prepend] == false
       IO.popen(command, 'rb') do |io|
-        io.each {|line| push_line(task_id, line, out, io)}
+        io.each do |line|
+          Hell::Helpers::push_line(task_id, line, io)
+        end
       end
-      Pusher[task_id].trigger('end', {:data => ''})
+      Pusher[task_id].trigger('end', MultiJson.dump(Hell::Helpers::ws_message("<p>end</p>")))
     end
+
+    module_function :pusher_error
+    module_function :pusher_success
+    module_function :push_line
+    module_function :valid_log
+    module_function :ws_message
+    module_function :utf8_dammit
+    module_function :ansi_escape
+    module_function :escape_to_html
 
   end
 end

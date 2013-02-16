@@ -23,7 +23,7 @@ Jeweler::Tasks.new do |gem|
   gem.description = %Q{Hell is an open source web interface that exposes a set of capistrano recipes as a json api, for usage within large teams}
   gem.email = "jose@seatgeek.com"
   gem.authors = ["Jose Diaz-Gonzalez"]
-  # dependencies defined in Gemfile
+  gem.executables = ["hell", "hell-pusher"]
 end
 Jeweler::RubygemsDotOrgTasks.new
 

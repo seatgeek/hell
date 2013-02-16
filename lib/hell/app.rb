@@ -112,6 +112,8 @@ module Hell
       verbose = "LOGGING=debug" if params[:verbose] == "on"
 
       task_id = run_in_background!("bundle exec cap -l STDOUT %s %s" % [original_cmd, verbose]) unless tasks.empty?
+      tail_in_background!(task_id) if USE_PUSHER
+
       response = {}
       response[:status] = tasks.empty? ? 404 : 200,
       response[:message] = tasks.empty? ? "Task not found" : "Running task in background",

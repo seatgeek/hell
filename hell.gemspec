@@ -25,6 +25,7 @@ Gem::Specification.new do |s|
     "Rakefile",
     "VERSION",
     "bin/hell",
+    "bin/hell-pusher",
     "config.ru",
     "hell.gemspec",
     "lib/hell.rb",
