@@ -128,7 +128,8 @@ module Hell
         # config files and make things unnecessarily complicated with multiple
         # places to look for a config option.
 
-        opts.separator "Common options (will not work under unicorn):"
+        opts.separator "Common options"
+        opts.separator "Note: will not work under unicorn, use environment variables instead"
 
         opts.on_tail("-h", "--help", "Show this message") do
           puts opts.to_s.gsub(/^.*DEPRECATED.*$/s, '')
