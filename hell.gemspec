@@ -25,10 +25,14 @@ Gem::Specification.new do |s|
     "Rakefile",
     "VERSION",
     "bin/hell",
+    "config.ru",
+    "hell.gemspec",
     "lib/hell.rb",
     "lib/hell/app.rb",
-    "lib/hell/config.ru",
-    "lib/hell/hell.rb",
+    "lib/hell/lib/capistrano/cli.rb",
+    "lib/hell/lib/capistrano/configuration.rb",
+    "lib/hell/lib/capistrano/task_definition.rb",
+    "lib/hell/lib/cli.rb",
     "lib/hell/lib/helpers.rb",
     "lib/hell/lib/monkey_patch.rb",
     "lib/hell/public/assets/css/bootstrap-responsive.css",
@@ -42,19 +46,18 @@ Gem::Specification.new do |s|
     "lib/hell/public/assets/img/glyphicons-halflings.png",
     "lib/hell/public/assets/js/backbone-localstorage.js",
     "lib/hell/public/assets/js/backbone.js",
-    "lib/hell/public/assets/js/backbone.min.js",
     "lib/hell/public/assets/js/bankersbox.js",
     "lib/hell/public/assets/js/bootstrap.growl.js",
     "lib/hell/public/assets/js/bootstrap.js",
-    "lib/hell/public/assets/js/bootstrap.min.js",
-    "lib/hell/public/assets/js/hashchange.min.js",
+    "lib/hell/public/assets/js/hashchange.js",
     "lib/hell/public/assets/js/hell.js",
-    "lib/hell/public/assets/js/jquery.min.js",
+    "lib/hell/public/assets/js/jquery.js",
     "lib/hell/public/assets/js/timeago.js",
-    "lib/hell/public/assets/js/underscore.min.js",
+    "lib/hell/public/assets/js/underscore.js",
     "lib/hell/views/index.erb",
     "test/helper.rb",
-    "test/test_hell.rb"
+    "test/test_hell.rb",
+    "unicorn"
   ]
   s.homepage = "http://github.com/seatgeek/hell"
   s.licenses = ["MIT"]
@@ -67,28 +70,37 @@ Gem::Specification.new do |s|
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<capistrano>, [">= 0"])
-      s.add_runtime_dependency(%q<json>, [">= 0"])
+      s.add_runtime_dependency(%q<multi_json>, [">= 0"])
+      s.add_runtime_dependency(%q<pusher>, [">= 0"])
       s.add_runtime_dependency(%q<sinatra>, [">= 0"])
       s.add_runtime_dependency(%q<sinatra-contrib>, [">= 0"])
+      s.add_runtime_dependency(%q<sinatra-assetpack>, [">= 0"])
+      s.add_runtime_dependency(%q<sass>, [">= 0"])
       s.add_runtime_dependency(%q<thin>, [">= 0"])
-      s.add_runtime_dependency(%q<websocket>, [">= 0"])
+      s.add_runtime_dependency(%q<unicorn>, [">= 0"])
       s.add_development_dependency(%q<jeweler>, [">= 0"])
     else
       s.add_dependency(%q<capistrano>, [">= 0"])
-      s.add_dependency(%q<json>, [">= 0"])
+      s.add_dependency(%q<multi_json>, [">= 0"])
+      s.add_dependency(%q<pusher>, [">= 0"])
       s.add_dependency(%q<sinatra>, [">= 0"])
       s.add_dependency(%q<sinatra-contrib>, [">= 0"])
+      s.add_dependency(%q<sinatra-assetpack>, [">= 0"])
+      s.add_dependency(%q<sass>, [">= 0"])
       s.add_dependency(%q<thin>, [">= 0"])
-      s.add_dependency(%q<websocket>, [">= 0"])
+      s.add_dependency(%q<unicorn>, [">= 0"])
       s.add_dependency(%q<jeweler>, [">= 0"])
     end
   else
     s.add_dependency(%q<capistrano>, [">= 0"])
-    s.add_dependency(%q<json>, [">= 0"])
+    s.add_dependency(%q<multi_json>, [">= 0"])
+    s.add_dependency(%q<pusher>, [">= 0"])
     s.add_dependency(%q<sinatra>, [">= 0"])
     s.add_dependency(%q<sinatra-contrib>, [">= 0"])
+    s.add_dependency(%q<sinatra-assetpack>, [">= 0"])
+    s.add_dependency(%q<sass>, [">= 0"])
     s.add_dependency(%q<thin>, [">= 0"])
-    s.add_dependency(%q<websocket>, [">= 0"])
+    s.add_dependency(%q<unicorn>, [">= 0"])
     s.add_dependency(%q<jeweler>, [">= 0"])
   end
 end

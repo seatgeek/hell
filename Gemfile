@@ -6,12 +6,12 @@ end
 
 
 gem 'capistrano'
-gem 'json'
+gem 'multi_json'
 
+gem 'pusher'
 gem 'sinatra'
 gem 'sinatra-contrib'
 gem 'sinatra-assetpack', :require => 'sinatra/assetpack'
 gem 'sass'
-gem 'trollop'
 gem 'thin'
-gem 'websocket'
+gem 'unicorn'

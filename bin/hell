@@ -1,12 +1,30 @@
-#!/usr/bin/env ruby
-#
-begin
-  require 'hell/app'
-rescue LoadError => e
-  require 'rubygems'
-  path = File.expand_path '../../lib', __FILE__
-  $:.unshift(path) if File.directory?(path) && !$:.include?(path)
-  require 'hell/app'
+#!/this/will/be/overwritten/or/wrapped/anyways/do/not/worry/ruby
+# -*- encoding: binary -*-
+require 'unicorn/launcher'
+require 'hell/lib/cli'
+
+ENV["RACK_ENV"] ||= "development"
+
+unicorn_path = File.expand_path('../../unicorn', __FILE__)
+options, op = Hell::CLI.option_parser(ARGV, unicorn_path)
+
+unless File.directory? options[:log_path]
+  abort('Missing hell log path %s' % options[:log_path])
 end
 
-Hell::App.run!
+options.delete(:log_path)
+
+app = Unicorn.builder(File.expand_path('../../config.ru', __FILE__), op)
+op = nil
+
+if $DEBUG
+  require 'pp'
+  pp({
+    :unicorn_options => options,
+    :app => app,
+    :daemonize => options[:daemonize],
+  })
+end
+
+Unicorn::Launcher.daemonize!(options) if options[:daemonize]
+Unicorn::HttpServer.new(app, options).start.join

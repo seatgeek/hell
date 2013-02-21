@@ -1,3 +1,6 @@
+require 'multi_json'
+require 'pusher'
+
 module Hell
   class TailDone < StandardError; end
 
@@ -45,12 +48,21 @@ module Hell
     end
 
     def ws_message(message)
-      message = {:message => ansi_escape(message)}.to_json + "\n\n"
+      message = {:message => ansi_escape(message)}.to_json
     end
 
-    def process_line(line, out, io)
+    def stream_line(task_id, line, out, io)
       begin
-        out << "data: " + ws_message(line) unless out.closed?
+        out << "data: " + ws_message(line) + "\n\n" unless out.closed?
+        raise TailDone if HELL_SENTINEL_STRINGS.any? { |w| line =~ /#{w}/ }
+      rescue
+        Process.kill("KILL", io.pid)
+      end
+    end
+
+    def push_line(task_id, line, out, io)
+      begin
+        Pusher[task_id].trigger('message', ws_message(line))
         raise TailDone if HELL_SENTINEL_STRINGS.any? { |w| line =~ /#{w}/ }
       rescue
         Process.kill("KILL", io.pid)
@@ -62,14 +74,17 @@ module Hell
       out.close
     end
 
+    def random_id
+      Time.now.to_i.to_s + '.' + SecureRandom.hex(2)
+    end
+
     def run_in_background!(background_cmd)
-      log_file = Time.now.to_i.to_s + '.' + SecureRandom.hex(2)
+      log_file = random_id
       cmd = [
-        "cd #{HELL_APP_ROOT}",
-        "echo '#{background_cmd}' >> #{HELL_LOG_PATH}/#{log_file}.log 2>&1",
-        "#{background_cmd} >> #{HELL_LOG_PATH}/#{log_file}.log 2>&1",
-        "echo 'Hellish Task Completed' >> #{HELL_LOG_PATH}/#{log_file}.log 2>&1",
-      ].join(" && ")
+        "cd #{HELL_APP_ROOT} && echo '#{background_cmd}' >> #{HELL_LOG_PATH}/#{log_file}.log 2>&1",
+        "cd #{HELL_APP_ROOT} && #{background_cmd} >> #{HELL_LOG_PATH}/#{log_file}.log 2>&1",
+        "cd #{HELL_APP_ROOT} && echo 'Hellish Task Completed' >> #{HELL_LOG_PATH}/#{log_file}.log 2>&1",
+      ].join(" ; ")
       system("sh -c \"#{cmd}\" &")
 
       # Wait up to three seconds in case of server load
@@ -84,7 +99,7 @@ module Hell
     end
 
     def verify_task(cap, name)
-      original_cmd = name.gsub('+', ' ')
+      original_cmd = name.gsub('+', ' ').gsub!(/\s+/, ' ').strip
       cmd = original_cmd.split(' ')
       cmd.shift if cap.environments.include?(cmd.first)
       cmd = cmd.join(' ')
@@ -114,6 +129,10 @@ module Hell
         end
         s
       end
+    end
+
+    def json_encode(data)
+      MultiJson.dump(data)
     end
   end
 end
