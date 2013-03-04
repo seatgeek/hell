@@ -81,10 +81,11 @@ module Hell
 
     def run_in_background!(background_cmd)
       log_file = random_id
+      task_end = HELL_SENTINEL_STRINGS.first
       cmd = [
         "cd #{HELL_APP_ROOT} && echo '#{background_cmd}' >> #{HELL_LOG_PATH}/#{log_file}.log 2>&1",
         "cd #{HELL_APP_ROOT} && #{background_cmd} >> #{HELL_LOG_PATH}/#{log_file}.log 2>&1",
-        "cd #{HELL_APP_ROOT} && echo 'Hellish Task Completed' >> #{HELL_LOG_PATH}/#{log_file}.log 2>&1",
+        "cd #{HELL_APP_ROOT} && echo '#{task_end}' >> #{HELL_LOG_PATH}/#{log_file}.log 2>&1",
       ].join(" ; ")
       system("sh -c \"#{cmd}\" &")
 
