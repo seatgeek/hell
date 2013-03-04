@@ -129,7 +129,6 @@ module Hell
         # places to look for a config option.
 
         opts.separator "Common options"
-        opts.separator "Note: will not work under unicorn, use environment variables instead"
 
         opts.on_tail("-h", "--help", "Show this message") do
           puts opts.to_s.gsub(/^.*DEPRECATED.*$/s, '')
@@ -142,35 +141,59 @@ module Hell
         end
 
         opts.on('-a', '--app-root APP_ROOT', 'directory from which capistrano should run') do |app_root|
-          options[:app_root] = app_root if app_root
+          if app_root
+            options[:app_root] = app_root
+            ENV['HELL_APP_ROOT'] = app_root
+          end
         end
 
         opts.on('-b', '--base-path BASE_PATH', 'base directory path to use in the web ui') do |base_path|
-          options[:base_path] = base_path if base_path
+          if base_path
+            options[:base_path] = base_path
+            ENV['HELL_BASE_PATH'] = base_path
+          end
         end
 
         opts.on('-L', '--log-path LOG_PATH', 'directory path to hell logs') do |log_path|
-          options[:log_path] = log_path if log_path
+          if log_path
+            options[:log_path] = log_path
+            ENV['HELL_LOG_PATH'] = log_path
+          end
         end
 
         opts.on('-R', '--require-env REQUIRE_ENV', 'whether or not to require specifying an environment') do |require_env|
-          options[:require_env] = !!require_env if require_env
+          if require_env
+            options[:require_env] = !!require_env
+            ENV['HELL_REQUIRE_ENV'] = !!require_env
+          end
         end
 
         opts.on('-S', '--sentinel SENTINAL_PHRASE', 'sentinel phrase used to denote the end of a task run') do |sentinel|
-          options[:sentinel] = sentinel.split(',') if sentinel
+          if sentinel
+            options[:sentinel] = sentinel.split(',')
+            ENV['HELL_SENTINEL_STRINGS'] = sentinel.split(',')
+          end
         end
 
         opts.on('--pusher-app-id PUSHER_APP_ID', 'pusher app id') do |pusher_app_id|
-          options[:pusher_app_id] = pusher_app_id if pusher_app_id
+          if pusher_app_id
+            options[:pusher_app_id] = pusher_app_id
+            ENV['HELL_PUSHER_APP_ID'] = pusher_app_id
+          end
         end
 
         opts.on('--pusher-key PUSHER_KEY', 'pusher key') do |pusher_key|
-          options[:pusher_key] = pusher_key if pusher_key
+          if pusher_key
+            options[:pusher_key] = pusher_key
+            ENV['HELL_PUSHER_KEY'] = pusher_key
+          end
         end
 
         opts.on('--pusher-secret PUSHER_SECRET', 'pusher secret') do |pusher_secret|
-          options[:pusher_secret] = pusher_secret if pusher_secret
+          if pusher_secret
+            options[:pusher_secret] = pusher_secret
+            ENV['HELL_PUSHER_SECRET'] = pusher_secret
+          end
         end
 
         opts.parse! args
