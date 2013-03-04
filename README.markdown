@@ -69,20 +69,6 @@ The following environment variables are available for your use:
 - `HELL_BASE_DIR`: Base directory to use in web ui. Useful for subdirectories. Defaults to `/`.
 - `HELL_SENTINEL_STRINGS`: Sentinel string used to denote the end of a task run. Defaults to `Hellish Task Completed`.
 
-## TODO
-
-* ~~Finish the execute task so that it sends output to the browser~~
-* ~~Figure out where/how to store deploy logs on disk~~
-* ~~Blacklist tasks from being displayed~~
-* ~~Add support for environment variables~~
-* ~~Add support for deployment environments~~
-* ~~Add support for ad-hoc deploy callbacks~~
-* Save favorite commands as buttons
-* Save defaults in a cookie
-* Use a slide-up element for task output
-* Add optional task locking so that deploys cannot interfere with one-another
-* Add ability to use pusher instead of sinatra streaming
-
 ## License
 
 Copyright (c) 2012 Jose Diaz-Gonzalez
