@@ -101,7 +101,7 @@ module Hell
     end
 
     def tail_in_background!(task_id)
-      cmd = "cd #{HELL_LOG_PATH} && HELL_TASK_ID='#{task_id}' HELL_SENTINEL_STRINGS='#{HELL_SENTINEL_STRINGS.join(',')}' HELL_LOG_PATH='#{HELL_LOG_PATH}' bundle exec hell-pusher"
+      cmd = "cd #{HELL_LOG_PATH} && HELL_TASK_ID='#{task_id}' HELL_SENTINEL_STRINGS='#{HELL_SENTINEL_STRINGS.join(',')}' bundle exec hell-pusher"
       system("sh -c \"#{cmd}\" &")
     end
 

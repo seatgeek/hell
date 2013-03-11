@@ -9,6 +9,7 @@ gem 'capistrano'
 gem 'multi_json'
 
 gem 'pusher'
+gem 'pusher-client'
 gem 'sinatra'
 gem 'sinatra-contrib'
 gem 'sinatra-assetpack', :require => 'sinatra/assetpack'

@@ -6,15 +6,22 @@ require 'hell/lib/helpers'
 TASK_ID = ENV.fetch('HELL_TASK_ID', nil)
 HELL_LOG_PATH = ENV.fetch('HELL_LOG_PATH', File.join(Dir.pwd, 'log'))
 HELL_SENTINEL_STRINGS = ENV.fetch('HELL_SENTINEL_STRINGS', 'Hellish Task Completed').split(',')
+HELL_PUSHER_APP_ID = ENV.fetch('HELL_PUSHER_APP_ID', nil)
+HELL_PUSHER_KEY = ENV.fetch('HELL_PUSHER_KEY', nil)
+HELL_PUSHER_SECRET = ENV.fetch('HELL_PUSHER_SECRET', nil)
+
 abort('Missing hell task id') unless TASK_ID
+abort('Missing pusher app id') unless HELL_PUSHER_APP_ID
+abort('Missing pusher app key') unless HELL_PUSHER_KEY
+abort('Missing pusher app secret') unless HELL_PUSHER_SECRET
+
+Pusher.app_id = HELL_PUSHER_APP_ID
+Pusher.key = HELL_PUSHER_KEY
+Pusher.secret = HELL_PUSHER_SECRET
 
 unless Hell::Helpers.valid_log(TASK_ID)
   Hell::Helpers::pusher_error(TASK_ID, "log file '#{TASK_ID}' not found")
   abort("log file '#{TASK_ID}' not found")
 end
-
-Pusher.app_id = ENV.fetch('HELL_PUSHER_APP_ID', nil)
-Pusher.key = ENV.fetch('HELL_PUSHER_KEY', nil)
-Pusher.secret = ENV.fetch('HELL_PUSHER_SECRET', nil)
 
 Hell::Helpers::pusher_success(TASK_ID, "tail -n 1000 -f %s" % File.join(HELL_LOG_PATH, TASK_ID + ".log"))

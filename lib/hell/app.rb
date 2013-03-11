@@ -174,6 +174,5 @@ module Hell
         close_stream(out)
       end
     end
-
   end
 end

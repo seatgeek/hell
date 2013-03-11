@@ -1,0 +1,65 @@
+#!/this/will/be/overwritten/or/wrapped/anyways/do/not/worry/ruby
+# -*- encoding: binary -*-
+require 'multi_json'
+require 'optparse'
+require 'rest_client'
+require 'pusher-client'
+
+require 'hell/lib/cli'
+
+options, op = Hell::CLI.runner_option_parser(ARGV)
+
+abort("Base hell url required, specify it using the -b flag") unless options[:base_url]
+abort("Task name required, specify it using the -t flag") unless options[:task]
+
+USE_PUSHER = !!(options[:pusher_app_id] && options[:pusher_key] && options[:pusher_secret])
+
+# Create the command
+command = []
+command << options[:environment] unless options[:environment].nil?
+command << options[:task] unless options[:task].nil?
+command = command.join('+')
+
+# Construct a url
+url = options[:base_url] + '/tasks/' + command + '/background'
+
+begin
+  response = RestClient.put(url, {:verbose => options[:verbose] ? "on" : "off"})
+rescue Exception => e
+  abort("Error retrieving response: %s" % e)
+end
+
+abort("Invalid response from server") unless response.code == 200
+
+body = MultiJson.load(response.body)
+task_id = body["task_id"]
+
+puts options
+
+if USE_PUSHER
+  PusherClient.logger = Logger.new('/dev/null')
+  socket = PusherClient::Socket.new(options[:pusher_key], {
+    :secret => options[:pusher_secret]
+  })
+
+  socket.subscribe(task_id)
+
+  socket[task_id].bind('start') do |data|
+    PusherClient.logger.debug "Received the first response for " + command
+  end
+
+  socket[task_id].bind('message') do |data|
+    data = MultiJson.load(data)
+    puts data['message'].gsub(/~+$/, '')
+  end
+
+  socket[task_id].bind('end') do |data|
+    PusherClient.logger.debug "Received the last response " + command
+    socket.unsubscribe(task_id)
+    socket.disconnect
+  end
+
+  socket.connect
+else
+  abort("EventSource not implemented yet")
+end
