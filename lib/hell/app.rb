@@ -115,8 +115,8 @@ module Hell
       tail_in_background!(task_id) if USE_PUSHER
 
       response = {}
-      response[:status] = tasks.empty? ? 404 : 200,
-      response[:message] = tasks.empty? ? "Task not found" : "Running task in background",
+      response[:status] = tasks.empty? ? 404 : 200
+      response[:message] = tasks.empty? ? "Task not found" : "Running task in background"
       response[:task_id] = task_id unless tasks.empty?
       json response
     end
