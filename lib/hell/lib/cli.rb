@@ -211,7 +211,7 @@ module Hell
     end
 
     def self.runner_option_parser(args)
-      options = options = {
+      options = {
         :environment => nil,
         :task => nil,
         :verbose => false,
