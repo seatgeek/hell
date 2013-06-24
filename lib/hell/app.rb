@@ -90,6 +90,10 @@ module Hell
       erb :index
     end
 
+    get '/_status' do
+      json({:message => 'ok', :status => 200})
+    end
+
     get '/tasks' do
       tasks = cap.tasks
       json tasks
