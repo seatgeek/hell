@@ -62,6 +62,7 @@ module Hell
         out << "data: " + ws_message(line) + "\n\n" unless out.closed?
         raise TailDone if HELL_SENTINEL_STRINGS.any? { |w| line =~ /#{w}/ }
       rescue
+        logger.info "kill " + io.pid
         Process.kill("KILL", io.pid)
       end
     end
