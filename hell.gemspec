@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "hell"
-  s.version = "0.2.0"
+  s.version = "0.2.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Jose Diaz-Gonzalez"]
-  s.date = "2013-03-11"
+  s.date = "2013-06-24"
   s.description = "Hell is an open source web interface that exposes a set of capistrano recipes as a json api, for usage within large teams"
   s.email = "jose@seatgeek.com"
   s.executables = ["hell", "hell-pusher"]
