@@ -8,20 +8,23 @@ module Hell
 
     def escape_to_html(data)
       {
-        1 => :nothing,
-        2 => :nothing,
-        4 => :nothing,
-        5 => :nothing,
-        7 => :nothing,
-        8 => :backspace,
-        30 => "#303030",
-        31 => "#D10915",
-        32 => "#53A948",
-        33 => "#CD7D3D",
-        34 => "#3582E0",
-        35 => :magenta,
-        36 => "#30EFEF",
-        37 => :white,
+        1  => {:color => :none,     :class => "bold",           :type => :special},
+        2  => {:color => :none,     :class => "low-intensity",  :type => :special},
+        3  => {:color => :none,     :class => "italic",         :type => :special},
+        4  => {:color => :none,     :class => "underline",      :type => :special},
+        5  => {:color => :none,     :class => "blink-slow",     :type => :special},
+        5  => {:color => :none,     :class => "blink-rapid",    :type => :special},
+        7  => {:color => :none,     :class => "reverse",        :type => :special},
+        8  => {:color => :none,     :class => "conceal",        :type => :special},
+        9  => {:color => :none,     :class => "crossed-out",    :type => :special},
+        30 => {:color => "000000",  :class => "color-black",    :type => :color},
+        31 => {:color => "7F0000",  :class => "color-red",      :type => :color},
+        32 => {:color => "007F05",  :class => "color-green",    :type => :color},
+        33 => {:color => "807F00",  :class => "color-yellow",   :type => :color},
+        34 => {:color => "0D0080",  :class => "color-blue",     :type => :color},
+        35 => {:color => "800080",  :class => "color-magenta",  :type => :color},
+        36 => {:color => "00807F",  :class => "color-cyan",     :type => :color},
+        37 => {:color => "C0C0C0",  :class => "color-white",    :type => :color},
         40 => :nothing,
         41 => :nothing,
         43 => :nothing,
@@ -32,10 +35,12 @@ module Hell
       }.each do |key, value|
         if value == :nothing
           data.gsub!(/\e\[#{key}m/,"<span>")
-        elsif value == :backspace
-          data.gsub!(/.[\b]/, '')
-        else
-          data.gsub!(/\e\[#{key}m/,"<span style=\"color:#{value}\">")
+        elsif value.is_a? Hash
+          if value[:class] == 'conceal'
+            data.gsub!(/.[\b]/, '')
+          else
+            data.gsub!(/\e\[#{key}m/, "<span class=\"#{value[:class]}\">")
+          end
         end
       end
       data.gsub!(/\e\[0m/, '</span>')

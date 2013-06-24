@@ -120,6 +120,50 @@ td.task-rerun {
   -moz-border-radius: 4px;
   border-radius: 4px;
 }
+.task-output .bold { font-weight: bold; }
+.task-output .low-intensity { font-weight: lighter; }
+.task-output .italic { font-style: italic; }
+.task-output .underline { text-decoration: underline; }
+.task-output .blink-slow {
+  -moz-animation-name: blinker;
+  -webkit-animation-name: blinker;
+  -moz-animation-iteration-count: infinite;
+  -webkit-animation-iteration-count: infinite;
+  -moz-animation-timing-function: cubic-bezier(1.0,0,0,1.0);
+  -webkit-animation-timing-function: cubic-bezier(1.0,0,0,1.0);
+  -moz-animation-duration: 2s;
+  -webkit-animation-duration: 2s;
+}
+.task-output .blink-rapid {
+  -moz-animation-name: blinker;
+  -webkit-animation-name: blinker;
+  -moz-animation-iteration-count: infinite;
+  -webkit-animation-iteration-count: infinite;
+  -moz-animation-timing-function: cubic-bezier(1.0,0,0,1.0);
+  -webkit-animation-timing-function: cubic-bezier(1.0,0,0,1.0);
+  -moz-animation-duration: 1s;
+  -webkit-animation-duration: 1s;
+}
+.task-output .reverse {  unicode-bidi:bidi-override; direction:rtl; }
+.task-output .conceal { display:none; }
+.task-output .crossed-out { text-decoration: line-through; }
+.task-output .color-black { color: #00000;}
+.task-output .color-red { color: #7F0000; }
+.task-output .color-green { color: #007F05;}
+.task-output .color-yellow { color: #807F00; }
+.task-output .color-blue { color: #0D0080; }
+.task-output .color-magenta { color: #800080; }
+.task-output .color-cyan { color: #00807F; }
+.task-output .color-white { color: #C0C0C0;}
+
+@-webkit-keyframes blinker {
+  from { opacity: 1.0; }
+  to { opacity: 0.0; }
+}
+@-moz-keyframes blinker {
+  from { opacity: 1.0; }
+  to { opacity: 0.0; }
+}
 
 /* =============== Progress Bar Overlay */
 .black-overlay {
