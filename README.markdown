@@ -71,7 +71,7 @@ The following environment variables are available for your use:
 
 ## License
 
-Copyright (c) 2012 Jose Diaz-Gonzalez
+Copyright (c) 2014 SeatGeek
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
